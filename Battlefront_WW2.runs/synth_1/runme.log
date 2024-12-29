@@ -1,0 +1,363 @@
+
+*** Running vivado
+    with args -log battlefront_ww2_top.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source battlefront_ww2_top.tcl
+
+
+
+****** Vivado v2024.2 (64-bit)
+  **** SW Build 5239630 on Fri Nov 08 22:35:27 MST 2024
+  **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+  **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+  **** Start of session at: Sun Dec 29 22:35:53 2024
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source battlefront_ww2_top.tcl -notrace
+Command: read_checkpoint -auto_incremental -incremental C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/utils_1/imports/synth_1/battlefront_ww2_top.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/utils_1/imports/synth_1/battlefront_ww2_top.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top battlefront_ww2_top -part xc7a35tcpg236-1
+Starting synth_design
+WARNING: [Vivado_Tcl 4-393] The 'Synthesis' target of the following IPs are stale, please generate the output products using the generate_target or synth_ip command before running synth_design.
+C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci
+
+WARNING: [Vivado_Tcl 4-393] The 'Implementation' target of the following IPs are stale, please generate the output products using the generate_target or synth_ip command before running synth_design.
+C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci
+
+INFO: [IP_Flow 19-2162] IP 'clk_wiz_0' is locked:
+* IP definition 'Clocking Wizard (6.0)' for IP 'clk_wiz_0' (customized with software release 2024.1) has a different revision in the IP Catalog.
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Device 21-403] Loading part xc7a35tcpg236-1
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 27260
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 978.234 ; gain = 468.520
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'battlefront_ww2_top' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2_top.vhd:17]
+INFO: [Synth 8-3491] module 'clk_wiz_0' declared at 'C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.runs/synth_1/.Xil/Vivado-29556-LENOVO-LOQ-15IRX9/realtime/clk_wiz_0_stub.vhdl:6' bound to instance 'clock_unit' of component 'clk_wiz_0' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2_top.vhd:57]
+INFO: [Synth 8-638] synthesizing module 'clk_wiz_0' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.runs/synth_1/.Xil/Vivado-29556-LENOVO-LOQ-15IRX9/realtime/clk_wiz_0_stub.vhdl:16]
+INFO: [Synth 8-3491] module 'vga_sync' declared at 'C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/vga_sync.vhd:5' bound to instance 'vga_sync_unit' of component 'vga_sync' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2_top.vhd:66]
+INFO: [Synth 8-638] synthesizing module 'vga_sync' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/vga_sync.vhd:14]
+INFO: [Synth 8-256] done synthesizing module 'vga_sync' (0#1) [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/vga_sync.vhd:14]
+INFO: [Synth 8-3491] module 'battlefront_ww2' declared at 'C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:5' bound to instance 'battelfront_ww2_unit' of component 'battlefront_ww2' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2_top.vhd:79]
+INFO: [Synth 8-638] synthesizing module 'battlefront_ww2' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:16]
+WARNING: [Synth 8-614] signal 'player_one_x_reg' is read in the process but is not in the sensitivity list [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:359]
+WARNING: [Synth 8-614] signal 'player_one_y_reg' is read in the process but is not in the sensitivity list [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:359]
+WARNING: [Synth 8-614] signal 'projectile_x_reg' is read in the process but is not in the sensitivity list [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:359]
+WARNING: [Synth 8-614] signal 'projectile_y_reg' is read in the process but is not in the sensitivity list [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:359]
+WARNING: [Synth 8-614] signal 'player_one_lives' is read in the process but is not in the sensitivity list [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:501]
+WARNING: [Synth 8-614] signal 'player_two_lives' is read in the process but is not in the sensitivity list [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:501]
+WARNING: [Synth 8-614] signal 'level_rgb' is read in the process but is not in the sensitivity list [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:501]
+WARNING: [Synth 8-614] signal 'player_two_x_reg' is read in the process but is not in the sensitivity list [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:501]
+WARNING: [Synth 8-614] signal 'player_two_y_reg' is read in the process but is not in the sensitivity list [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:501]
+WARNING: [Synth 8-614] signal 'inner_rgb' is read in the process but is not in the sensitivity list [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:501]
+INFO: [Synth 8-256] done synthesizing module 'battlefront_ww2' (0#1) [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:16]
+INFO: [Synth 8-256] done synthesizing module 'battlefront_ww2_top' (0#1) [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2_top.vhd:17]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1095.391 ; gain = 585.676
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1095.391 ; gain = 585.676
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1095.391 ; gain = 585.676
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.007 . Memory (MB): peak = 1095.391 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [c:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'clock_unit'
+Finished Parsing XDC File [c:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'clock_unit'
+Parsing XDC File [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/constrs_1/imports/battlefront_ww2/basys3_master.xdc]
+Finished Parsing XDC File [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/constrs_1/imports/battlefront_ww2/basys3_master.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/constrs_1/imports/battlefront_ww2/basys3_master.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/battlefront_ww2_top_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/battlefront_ww2_top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.runs/synth_1/dont_touch.xdc]
+Finished Parsing XDC File [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.runs/synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1189.746 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1189.746 ; gain = 0.000
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 1189.746 ; gain = 680.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a35tcpg236-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 1189.746 ; gain = 680.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property IO_BUFFER_TYPE = NONE for clk. (constraint file  c:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc, line 3).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for clk. (constraint file  c:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc, line 4).
+Applied set_property KEEP_HIERARCHY = SOFT for clock_unit. (constraint file  auto generated constraint).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 1189.746 ; gain = 680.031
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-327] inferring latch for variable 'player_one_y_next_reg' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:346]
+WARNING: [Synth 8-327] inferring latch for variable 'player_one_x_next_reg' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:345]
+WARNING: [Synth 8-327] inferring latch for variable 'projectile_x_next_reg' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:349]
+WARNING: [Synth 8-327] inferring latch for variable 'projectile_y_next_reg' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:350]
+WARNING: [Synth 8-327] inferring latch for variable 'led_reg' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:419]
+WARNING: [Synth 8-327] inferring latch for variable 'collision_margin_bottom_reg' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:418]
+WARNING: [Synth 8-327] inferring latch for variable 'collision_margin_top_reg' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:426]
+WARNING: [Synth 8-327] inferring latch for variable 'collision_margin_left_reg' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:434]
+WARNING: [Synth 8-327] inferring latch for variable 'collision_margin_right_reg' [C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd:442]
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 1189.746 ; gain = 680.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   3 Input   11 Bit       Adders := 3     
+	   2 Input   10 Bit       Adders := 15    
+	   3 Input    5 Bit       Adders := 4     
++---Registers : 
+	               12 Bit    Registers := 1     
+	               10 Bit    Registers := 8     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   2 Input   16 Bit        Muxes := 1     
+	  16 Input   12 Bit        Muxes := 8     
+	  32 Input   12 Bit        Muxes := 19    
+	   2 Input   12 Bit        Muxes := 8     
+	   2 Input   10 Bit        Muxes := 8     
+	  32 Input    4 Bit        Muxes := 1     
+	   3 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 4     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 90 (col length:60)
+BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-7129] Port led[15] in module battlefront_ww2 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[14] in module battlefront_ww2 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[13] in module battlefront_ww2 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[12] in module battlefront_ww2 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[11] in module battlefront_ww2 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[10] in module battlefront_ww2 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[9] in module battlefront_ww2 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[8] in module battlefront_ww2 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[7] in module battlefront_ww2 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port led[6] in module battlefront_ww2 is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:22 ; elapsed = 00:00:23 . Memory (MB): peak = 1268.020 ; gain = 758.305
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+ROM: Preliminary Mapping Report
++----------------+---------------------------------+---------------+----------------+
+|Module Name     | RTL Object                      | Depth x Width | Implemented As | 
++----------------+---------------------------------+---------------+----------------+
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,1]    | 32x4          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,2]    | 32x6          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,3]    | 32x6          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,4]    | 32x8          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,5]    | 32x7          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,7]    | 32x6          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,8]    | 32x5          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,9]    | 32x5          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,10]   | 32x9          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,11]   | 32x9          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,12]   | 32x9          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,16]   | 32x8          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,17]   | 32x5          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,18]   | 32x1          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,19]   | 32x1          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,3]  | 32x5          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,4]  | 32x5          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,5]  | 32x9          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,6]  | 32x9          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,7]  | 32x12         | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,10] | 32x10         | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,16] | 32x5          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,17] | 32x5          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,18] | 32x3          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,19] | 32x3          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,21] | 32x1          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,1]    | 32x4          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,2]    | 32x6          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,3]    | 32x6          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,4]    | 32x8          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,5]    | 32x7          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,7]    | 32x6          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,8]    | 32x5          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,9]    | 32x5          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,10]   | 32x9          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,11]   | 32x9          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,12]   | 32x9          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,16]   | 32x8          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,17]   | 32x5          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,18]   | 32x1          | LUT            | 
+|battlefront_ww2 | GERMAN_SOLDIER_IDLE_ROM[0,19]   | 32x1          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,3]  | 32x5          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,4]  | 32x5          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,5]  | 32x9          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,6]  | 32x9          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,7]  | 32x12         | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,10] | 32x10         | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,16] | 32x5          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,17] | 32x5          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,18] | 32x3          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,19] | 32x3          | LUT            | 
+|battlefront_ww2 | AMERICAN_SOLDIER_IDLE_ROM[0,21] | 32x1          | LUT            | 
++----------------+---------------------------------+---------------+----------------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:26 ; elapsed = 00:00:27 . Memory (MB): peak = 1274.355 ; gain = 764.641
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:34 ; elapsed = 00:00:36 . Memory (MB): peak = 1516.051 ; gain = 1006.336
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:35 ; elapsed = 00:00:36 . Memory (MB): peak = 1516.051 ; gain = 1006.336
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:37 ; elapsed = 00:00:39 . Memory (MB): peak = 1595.895 ; gain = 1086.180
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:37 ; elapsed = 00:00:39 . Memory (MB): peak = 1595.895 ; gain = 1086.180
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:37 ; elapsed = 00:00:39 . Memory (MB): peak = 1595.895 ; gain = 1086.180
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:37 ; elapsed = 00:00:39 . Memory (MB): peak = 1595.895 ; gain = 1086.180
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:37 ; elapsed = 00:00:39 . Memory (MB): peak = 1595.895 ; gain = 1086.180
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:37 ; elapsed = 00:00:39 . Memory (MB): peak = 1595.895 ; gain = 1086.180
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+--------------+----------+
+|      |BlackBox name |Instances |
++------+--------------+----------+
+|1     |clk_wiz_0     |         1|
++------+--------------+----------+
+
+Report Cell Usage: 
++------+---------------+------+
+|      |Cell           |Count |
++------+---------------+------+
+|1     |clk_wiz_0_bbox |     1|
+|2     |BUFG           |     1|
+|3     |CARRY4         |    30|
+|4     |LUT1           |    17|
+|5     |LUT2           |    77|
+|6     |LUT3           |    50|
+|7     |LUT4           |   120|
+|8     |LUT5           |   210|
+|9     |LUT6           |   466|
+|10    |FDCE           |    47|
+|11    |FDPE           |    17|
+|12    |FDSE           |    12|
+|13    |LD             |    48|
+|14    |IBUF           |     5|
+|15    |OBUF           |    20|
+|16    |OBUFT          |    10|
++------+---------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:37 ; elapsed = 00:00:39 . Memory (MB): peak = 1595.895 ; gain = 1086.180
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 20 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:31 ; elapsed = 00:00:38 . Memory (MB): peak = 1595.895 ; gain = 991.824
+Synthesis Optimization Complete : Time (s): cpu = 00:00:37 ; elapsed = 00:00:39 . Memory (MB): peak = 1595.895 ; gain = 1086.180
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.007 . Memory (MB): peak = 1605.090 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 78 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1608.742 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 48 instances were transformed.
+  LD => LDCE: 48 instances
+
+Synth Design complete | Checksum: 597d56fd
+INFO: [Common 17-83] Releasing license: Synthesis
+32 Infos, 32 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:39 ; elapsed = 00:00:43 . Memory (MB): peak = 1608.742 ; gain = 1289.461
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1608.742 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.runs/synth_1/battlefront_ww2_top.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file battlefront_ww2_top_utilization_synth.rpt -pb battlefront_ww2_top_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Sun Dec 29 22:36:38 2024...

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1735511750" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/battlefront_ww2_top.dcp">
+  <File Type="PA-TCL" Name="battlefront_ww2_top.tcl"/>
+  <File Type="REPORTS-TCL" Name="battlefront_ww2_top_reports.tcl"/>
+  <File Type="RDS-RDS" Name="battlefront_ww2_top.vds"/>
+  <File Type="RDS-PROPCONSTRS" Name="battlefront_ww2_top_drc_synth.rpt"/>
+  <File Type="RDS-UTIL" Name="battlefront_ww2_top_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="battlefront_ww2_top_utilization_synth.pb"/>
+  <File Type="RDS-DCP" Name="battlefront_ww2_top.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="battlefront_ww2_top_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="battlefront_ww2_top_timing_summary_synth.pb"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/ip/clk_wiz_0/clk_wiz_0.xci">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../Vivado/Projeto_Jogo/Projeto_Jogo.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci"/>
+        <Attr Name="ImportTime" Val="1733245975"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/battlefront_ww2/battlefront_ww2.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/battlefront_ww2/battlefront_ww2.vhd"/>
+        <Attr Name="ImportTime" Val="1735510343"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/battlefront_ww2/vga_sync.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/battlefront_ww2/vga_sync.vhd"/>
+        <Attr Name="ImportTime" Val="1735510403"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/battlefront_ww2/battlefront_ww2_top.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/battlefront_ww2/battlefront_ww2_top.vhd"/>
+        <Attr Name="ImportTime" Val="1735510752"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/battlefront_ww2/font_rom.vhd">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/battlefront_ww2/font_rom.vhd"/>
+        <Attr Name="ImportTime" Val="1733245784"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="battlefront_ww2_top"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/imports/battlefront_ww2/basys3_master.xdc">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/battlefront_ww2/basys3_master.xdc"/>
+        <Attr Name="ImportTime" Val="1735398135"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
+    <Filter Type="Utils"/>
+    <File Path="$PSRCDIR/utils_1/imports/synth_1/battlefront_ww2_top.dcp">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedInSteps" Val="synth_1"/>
+        <Attr Name="AutoDcp" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024">
+      <Desc>Vivado Synthesis Defaults</Desc>
+    </StratHandle>
+    <Step Id="synth_design"/>
+  </Strategy>
+</GenRun>

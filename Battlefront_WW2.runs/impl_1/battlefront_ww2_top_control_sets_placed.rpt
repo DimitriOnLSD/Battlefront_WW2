@@ -1,0 +1,89 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
+| Date         : Sun Dec 29 22:37:02 2024
+| Host         : LENOVO-LOQ-15IRX9 running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file battlefront_ww2_top_control_sets_placed.rpt
+| Design       : battlefront_ww2_top
+| Device       : xc7a35t
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    11 |
+|    Minimum number of control sets                        |    11 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    60 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    11 |
+| >= 0 to < 4        |     4 |
+| >= 4 to < 6        |     1 |
+| >= 6 to < 8        |     0 |
+| >= 8 to < 10       |     1 |
+| >= 10 to < 12      |     3 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     0 |
+| >= 16              |     2 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |              48 |           25 |
+| No           | No                    | Yes                    |              43 |           23 |
+| No           | Yes                   | No                     |               0 |            0 |
+| Yes          | No                    | No                     |               0 |            0 |
+| Yes          | No                    | Yes                    |              21 |           11 |
+| Yes          | Yes                   | No                     |              12 |            5 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++-------------------------------------------+----------------------------+------------------------------+------------------+----------------+--------------+
+|                Clock Signal               |        Enable Signal       |       Set/Reset Signal       | Slice Load Count | Bel Load Count | Bels / Slice |
++-------------------------------------------+----------------------------+------------------------------+------------------+----------------+--------------+
+|  battelfront_ww2_unit/led_reg[0]_i_2_n_0  |                            |                              |                1 |              1 |         1.00 |
+|  battelfront_ww2_unit/led_reg[2]_i_2_n_0  |                            |                              |                1 |              1 |         1.00 |
+|  battelfront_ww2_unit/led_reg[3]_i_2_n_0  |                            |                              |                1 |              1 |         1.00 |
+|  vga_sync_unit/player_one_y_reg_reg[6][0] |                            |                              |                1 |              1 |         1.00 |
+|  clock_unit/inst/clk_out1                 | vga_sync_unit/pixel_tick   | vga_sync_unit/mod2_reg_reg_1 |                1 |              4 |         4.00 |
+|  clock_unit/inst/clk_out1                 | vga_sync_unit/pixel_tick   | vga_sync_unit/mod2_reg_reg_0 |                4 |              8 |         2.00 |
+|  vga_sync_unit/btn[1][0]                  |                            |                              |                3 |             10 |         3.33 |
+|  clock_unit/inst/clk_out1                 | vga_sync_unit/pixel_tick   | reset_IBUF                   |                6 |             10 |         1.67 |
+|  clock_unit/inst/clk_out1                 | vga_sync_unit/v_count_reg0 | reset_IBUF                   |                5 |             11 |         2.20 |
+|  player_one_y_next__0                     |                            |                              |               18 |             34 |         1.89 |
+|  clock_unit/inst/clk_out1                 |                            | reset_IBUF                   |               23 |             43 |         1.87 |
++-------------------------------------------+----------------------------+------------------------------+------------------+----------------+--------------+
+
+
