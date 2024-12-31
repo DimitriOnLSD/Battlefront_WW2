@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Tue Dec 31 03:46:51 2024
+| Date         : Tue Dec 31 16:41:39 2024
 | Host         : LENOVO-LOQ-15IRX9 running 64-bit major release  (build 9200)
 | Command      : report_drc -file battlefront_ww2_top_drc_routed.rpt -pb battlefront_ww2_top_drc_routed.pb -rpx battlefront_ww2_top_drc_routed.rpx
 | Design       : battlefront_ww2_top
@@ -24,73 +24,18 @@ Table of Contents
       Design limits: <entire design considered>
            Ruledeck: default
              Max checks: <unlimited>
-             Checks found: 11
+             Checks found: 1
 +----------+----------+----------------------------+--------+
 | Rule     | Severity | Description                | Checks |
 +----------+----------+----------------------------+--------+
-| PDRC-134 | Warning  | SLICE_PairEqSame_B6B5_WARN | 4      |
-| PDRC-136 | Warning  | SLICE_PairEqSame_C6C5_WARN | 2      |
-| PDRC-138 | Warning  | SLICE_PairEqSame_D6D5_WARN | 1      |
-| PDRC-142 | Warning  | SLICE_PairEqSame_B6B5_WARN | 2      |
-| PDRC-144 | Warning  | SLICE_PairEqSame_C6C5_WARN | 1      |
-| PDRC-153 | Warning  | Gated clock check          | 1      |
+| PDRC-142 | Warning  | SLICE_PairEqSame_B6B5_WARN | 1      |
 +----------+----------+----------------------------+--------+
 
 2. REPORT DETAILS
 -----------------
-PDRC-134#1 Warning
-SLICE_PairEqSame_B6B5_WARN  
-Luts B6LUT and B5LUT in use in site SLICE_X29Y44 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-134#2 Warning
-SLICE_PairEqSame_B6B5_WARN  
-Luts B6LUT and B5LUT in use in site SLICE_X29Y47 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-134#3 Warning
-SLICE_PairEqSame_B6B5_WARN  
-Luts B6LUT and B5LUT in use in site SLICE_X31Y50 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-134#4 Warning
-SLICE_PairEqSame_B6B5_WARN  
-Luts B6LUT and B5LUT in use in site SLICE_X33Y47 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-136#1 Warning
-SLICE_PairEqSame_C6C5_WARN  
-Luts C6LUT and C5LUT in use in site SLICE_X29Y44 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-136#2 Warning
-SLICE_PairEqSame_C6C5_WARN  
-Luts C6LUT and C5LUT in use in site SLICE_X31Y50 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-138#1 Warning
-SLICE_PairEqSame_D6D5_WARN  
-Luts D6LUT and D5LUT in use in site SLICE_X32Y53 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
 PDRC-142#1 Warning
 SLICE_PairEqSame_B6B5_WARN  
-Luts B6LUT and B5LUT in use in site SLICE_X34Y51 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-142#2 Warning
-SLICE_PairEqSame_B6B5_WARN  
-Luts B6LUT and B5LUT in use in site SLICE_X34Y53 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-144#1 Warning
-SLICE_PairEqSame_C6C5_WARN  
-Luts C6LUT and C5LUT in use in site SLICE_X34Y51 with different equations without A6 pin connected to Global Logic High.
-Related violations: <none>
-
-PDRC-153#1 Warning
-Gated clock check  
-Net vga_sync_unit/btn[0][0] is a gated clock net sourced by a combinational pin vga_sync_unit/player_one_x_next_reg[9]_i_2/O, cell vga_sync_unit/player_one_x_next_reg[9]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Luts B6LUT and B5LUT in use in site SLICE_X8Y20 with different equations without A6 pin connected to Global Logic High.
 Related violations: <none>
 
 

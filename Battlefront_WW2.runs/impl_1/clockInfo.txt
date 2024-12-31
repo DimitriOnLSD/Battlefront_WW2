@@ -1,6 +1,6 @@
 -------------------------------------
 | Tool Version : Vivado v.2024.2
-| Date         : Tue Dec 31 03:46:33 2024
+| Date         : Tue Dec 31 16:41:21 2024
 | Host         : LENOVO-LOQ-15IRX9
 | Design       : design_1
 | Device       : xc7a35t-cpg236-1--

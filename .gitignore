@@ -1,4 +1,4 @@
-
-*.xml
-*.xml
-*.rst
+/Battlefront_WW2.cache
+/Battlefront_WW2.runs
+/Battlefront_WW2.runs/impl_1
+/Battlefront_WW2.cache/wt

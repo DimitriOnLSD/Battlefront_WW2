@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1735616717">
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1735663204">
   <File Type="PA-TCL" Name="battlefront_ww2_top.tcl"/>
   <File Type="REPORTS-TCL" Name="battlefront_ww2_top_reports.tcl"/>
   <File Type="INIT-TIMING" Name="battlefront_ww2_top_timing_summary_init.rpt"/>
