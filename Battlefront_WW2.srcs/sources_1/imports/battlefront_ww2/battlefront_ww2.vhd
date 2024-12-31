@@ -2,18 +2,18 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity pong_graph_animate is
+entity battlefront_ww2 is
 	port (
-		clk, reset : in std_logic;
+		clk, reset       : in std_logic;
 		pixel_x, pixel_y : in std_logic_vector(9 downto 0);
-		video_on : in std_logic;
-		btn : in std_logic_vector(3 downto 0);
-		graph_rgb : out std_logic_vector(11 downto 0);
-		led : out std_logic_vector(15 downto 0)
+		video_on         : in std_logic;
+		btn              : in std_logic_vector(3 downto 0);
+		graph_rgb        : out std_logic_vector(11 downto 0);
+		led              : out std_logic_vector(15 downto 0)
 	);
-end pong_graph_animate;
+end battlefront_ww2;
 
-architecture arch of pong_graph_animate is
+architecture arch of battlefront_ww2 is
 	----------------------------------------------
 	-- CONSTANTS
 	----------------------------------------------
@@ -111,7 +111,8 @@ architecture arch of pong_graph_animate is
 	----------------------------------------------
 	constant PROJECTILE_SIZE_X : integer := 5;
 	constant PROJECTILE_SIZE_Y : integer := 3;
-	constant PROJECTILE_V_X    : integer := 5;
+	constant PROJECTILE_V_X    : integer := 1;
+    constant MAX_PROJECTILES   : integer := 5;
 	----------------------------------------------
 	constant HEART_SIZE_X            : integer := 16;
 	constant HEART_SIZE_Y            : integer := 16;
@@ -286,11 +287,10 @@ architecture arch of pong_graph_animate is
     constant player_two_spawn_x : integer := MAX_X/2 - CHAR_SIZE_X/2;
     constant player_two_spawn_y : integer := COLLISION_4_Y - CHAR_SIZE_Y;
     ----------------------------------------------
-    constant projectile_spawn_x : integer := player_one_spawn_x + CHAR_SIZE_X - PROJECTILE_SIZE_X;
-    constant projectile_spawn_y : integer := player_one_spawn_y + CHAR_SIZE_X + HEAD_TO_BARREL_DISTANCE;
-    ----------------------------------------------
-    signal player_one_lives : integer range 0 to 3 := 3; -- Number of lives for Player 1
-    signal player_two_lives : integer range 0 to 3 := 3; -- Number of lives for Player 2
+    signal player_one_lives_reg  : integer range 0 to 3 := 3;
+    signal player_one_lives_next : integer range 0 to 3 := 3;
+    signal player_two_lives_reg  : integer range 0 to 3 := 3;
+    signal player_two_lives_next : integer range 0 to 3 := 3;
     ----------------------------------------------
     signal player_one_x_reg, player_one_x_next : unsigned(9 downto 0) := to_unsigned(player_one_spawn_x, 10);
     signal player_one_y_reg, player_one_y_next : unsigned(9 downto 0) := to_unsigned(player_one_spawn_y, 10);
@@ -298,19 +298,18 @@ architecture arch of pong_graph_animate is
     signal player_two_x_reg, player_two_x_next : unsigned(9 downto 0) := to_unsigned(player_two_spawn_x, 10);
     signal player_two_y_reg, player_two_y_next : unsigned(9 downto 0) := to_unsigned(player_two_spawn_y, 10);
     ----------------------------------------------
-    signal projectile_x_reg, projectile_x_next : unsigned(9 downto 0);
-    signal projectile_y_reg, projectile_y_next : unsigned(9 downto 0);
+    signal projectile_p1_x_reg         : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p1_y_reg         : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p1_x_next        : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p1_y_next        : unsigned(9 downto 0) := to_unsigned(0, 10);
+    ----------------------------------------------
+    signal projectile_p2_active        : std_logic := '0';
+    signal projectile_p2_x_reg         : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p2_y_reg         : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p2_x_next        : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p2_y_next        : unsigned(9 downto 0) := to_unsigned(0, 10);
     ----------------------------------------------
     -- OBJECTS OUTPUT SIGNALS
-    ----------------------------------------------
-    signal platform_on  : std_logic;
-    signal platform_rgb : std_logic_vector(11 downto 0);
-    ----------------------------------------------
-    signal rom_char_addr, rom_char_col : unsigned(4 downto 0);
-    signal rom_char_data               : std_logic_vector(7 downto 0);
-    signal rom_char_bit                : std_logic_vector(11 downto 0);
-    signal char_on                     : std_logic;
-    signal char_rgb                    : std_logic_vector(11 downto 0);
     ----------------------------------------------
     signal refr_tick : std_logic;
     ----------------------------------------------
@@ -326,8 +325,10 @@ architecture arch of pong_graph_animate is
     signal collision_margin_left   : std_logic := '0';
     signal collision_margin_right  : std_logic := '0';
     ----------------------------------------------
-    signal shoot             : std_logic := '0';
-    signal projectile_active : std_logic := '0'; -- Tracks if the projectile is active
+    signal collision_projectile_border : std_logic := '0';
+    signal collision_projectile_player_one : std_logic := '0';
+    signal collision_projectile_player_two : std_logic := '0';
+    ----------------------------------------------
 begin
 	----------------------------------------------
 	-- REFERENCE TICK AND RESET LOGIC
@@ -339,24 +340,72 @@ begin
 			player_one_y_reg <= to_unsigned(player_one_spawn_y, 10);
 			player_two_x_reg <= to_unsigned(player_two_spawn_x, 10);
 			player_two_y_reg <= to_unsigned(player_two_spawn_y, 10);
-			projectile_x_reg <= to_unsigned(projectile_spawn_x, 10);
-			projectile_y_reg <= to_unsigned(projectile_spawn_y, 10);
+            player_one_lives_reg <= 3;
+            player_two_lives_reg <= 3;
+            projectile_p1_x_reg <= to_unsigned(0, 10);
+            projectile_p1_y_reg <= to_unsigned(0, 10);
 		elsif (clk'EVENT and clk = '1') then
 			player_one_x_reg <= player_one_x_next;
 			player_one_y_reg <= player_one_y_next;
 			player_two_x_reg <= player_two_x_next;
 			player_two_y_reg <= player_two_y_next;
-			projectile_x_reg <= projectile_x_next;
-			projectile_y_reg <= projectile_y_next;
+            projectile_p1_x_reg <= projectile_p1_x_next;
+            projectile_p1_y_reg <= projectile_p1_y_next;
+            player_one_lives_reg <= player_one_lives_next;
+            player_two_lives_reg <= player_two_lives_next;
 		end if;
 	end process;
 	pix_x <= unsigned(pixel_x);
 	pix_y <= unsigned(pixel_y);
 	refr_tick <= '1' when (pix_y = 481) and (pix_x = 0) else '0';
+    ----------------------------------------------
+	-- LED DEBUG
 	----------------------------------------------
-	-- MOVEMENT LOGIC
+    process (collision_margin_top, collision_margin_bottom, collision_margin_left, collision_margin_right, collision_top, collision_bottom)
+        variable i : integer;
+    begin
+
+        if collision_margin_top = '1' then
+            led(0) <= '1';
+        else
+            led(0) <= '0';
+        end if;
+
+        if collision_margin_bottom = '1' then
+            led(1) <= '1';
+        else
+            led(1) <= '0';
+        end if;
+
+        if collision_margin_left = '1' then
+            led(2) <= '1';
+        else
+            led(2) <= '0';
+        end if;
+
+        if collision_margin_right = '1' then
+            led(3) <= '1';
+        else
+            led(3) <= '0';
+        end if;
+
+        if collision_top = '1' then
+            led(4) <= '1';
+        else
+            led(4) <= '0';
+        end if;
+
+        if collision_bottom = '1' then
+            led(5) <= '1';
+        else
+            led(5) <= '0';
+        end if;
+
+    end process;
 	----------------------------------------------
-	process (refr_tick, btn, collision_margin_top, collision_margin_bottom, collision_margin_left, collision_margin_right, collision_top, collision_bottom, projectile_active)
+	-- MOVEMENT & SHOOTING LOGIC
+	----------------------------------------------
+	process (refr_tick, btn, collision_margin_top, collision_margin_bottom, collision_margin_left, collision_margin_right, collision_top, collision_bottom, collision_projectile_border, collision_projectile_player_two)
     begin
 
         if refr_tick = '1' then
@@ -392,14 +441,20 @@ begin
                 elsif (collision_margin_bottom = '1') or (collision_bottom = '1') then
                     player_one_y_next <= player_one_y_reg;
                 end if;
-            end if;
+            end if; 
 
+            -- Shooting
             if btn(3) = '1' then
-                projectile_x_next <= player_one_x_reg + CHAR_SIZE_X - PROJECTILE_SIZE_X;
-                projectile_y_next <= player_one_y_reg + HEAD_TO_BARREL_DISTANCE;
-            else
-                projectile_x_next <= projectile_x_reg + PROJECTILE_V_X;
-                projectile_y_next <= projectile_y_reg;
+                projectile_p1_x_next <= player_one_x_reg + CHAR_SIZE_X - PROJECTILE_SIZE_X;
+                projectile_p1_y_next <= player_one_y_reg + HEAD_TO_BARREL_DISTANCE;
+            else 
+                if (collision_projectile_border = '0') and (collision_projectile_player_two = '0') then
+                    projectile_p1_x_next <= projectile_p1_x_reg + PROJECTILE_V_X;
+                    projectile_p1_y_next <= projectile_p1_y_reg;
+                else
+                    projectile_p1_x_next <= to_unsigned(0, 10);
+                    projectile_p1_y_next <= to_unsigned(0, 10);
+                end if;
             end if;
 
         end if;
@@ -410,12 +465,12 @@ begin
     ----------------------------------------------
     process (player_one_x_reg, player_one_y_reg, refr_tick)
     begin
+
         if refr_tick = '1' then
 
             -- Collision with floor
             if (player_one_y_reg >= (COLLISION_0_Y - CHAR_SIZE_Y)) then
                 collision_margin_bottom <= '1';
-                led(0) <= '1';
             else
                 collision_margin_bottom <= '0';
             end if;
@@ -423,7 +478,6 @@ begin
             -- Collision with top border
             if (player_one_y_reg <= BORDER_THICKNESS) then
                 collision_margin_top <= '1';
-                led(1) <= '1';
             else
                 collision_margin_top <= '0';
             end if;
@@ -431,7 +485,6 @@ begin
             -- Collision with left border
             if (player_one_x_reg <= LEFT_MARGIN) then
                 collision_margin_left <= '1';
-                led(2) <= '1';
             else
                 collision_margin_left <= '0';
             end if;
@@ -439,7 +492,6 @@ begin
             -- Collision with right border
             if (player_one_x_reg >= (RIGHT_MARGIN - CHAR_SIZE_X)) then
                 collision_margin_right <= '1';
-                led(3) <= '1';
             else
                 collision_margin_right <= '0';
             end if;
@@ -448,9 +500,9 @@ begin
 
     end process;
     ----------------------------------------------
-    -- COLLISION LOGIC
+    -- COLLISION PLATFORM LOGIC
     ----------------------------------------------
-    process (player_one_x_reg, player_one_y_reg)
+    process (player_one_x_reg, player_one_y_reg, projectile_p1_x_reg, projectile_p1_y_reg)
     begin
         -- Collision with feet on platforms
         -- Each line represents a platform
@@ -466,10 +518,8 @@ begin
         ((player_one_x_reg + FEET_POSITION > COLLISION_L4P1_X_MIN) and (player_one_x_reg < COLLISION_L4P1_X_MAX) and (player_one_y_reg + CHAR_SIZE_Y >= COLLISION_4_Y) and (player_one_y_reg < COLLISION_4_Y + LEVEL_THICKNESS)) or
         ((player_one_x_reg + FEET_POSITION > COLLISION_L4P2_X_MIN) and (player_one_x_reg < COLLISION_L4P2_X_MAX) and (player_one_y_reg + CHAR_SIZE_Y >= COLLISION_4_Y) and (player_one_y_reg < COLLISION_4_Y + LEVEL_THICKNESS)) then
             collision_bottom <= '1';
-            led(4) <= '1';
         else
             collision_bottom <= '0';
-            led(4) <= '0';
         end if;
 
         -- Collision with head on platforms
@@ -486,70 +536,93 @@ begin
         ((player_one_x_reg + HEAD_POSITION > COLLISION_L4P1_X_MIN) and (player_one_x_reg < COLLISION_L4P1_X_MAX) and (player_one_y_reg <= COLLISION_4_Y + LEVEL_THICKNESS) and (player_one_y_reg + CHAR_SIZE_Y > COLLISION_4_Y)) or
         ((player_one_x_reg + HEAD_POSITION > COLLISION_L4P2_X_MIN) and (player_one_x_reg < COLLISION_L4P2_X_MAX) and (player_one_y_reg <= COLLISION_4_Y + LEVEL_THICKNESS) and (player_one_y_reg + CHAR_SIZE_Y > COLLISION_4_Y)) then
             collision_top <= '1';
-            led(5) <= '1';
         else
             collision_top <= '0';
-            led(5) <= '0';
+        end if;
+
+        -- Collision with border
+        if projectile_p1_x_reg >= (RIGHT_MARGIN - PROJECTILE_SIZE_X) then
+            collision_projectile_border <= '1';
+        else 
+            collision_projectile_border <= '0';
+        end if;
+
+        -- Collision with player 1
+
+        -- Collision with player 2
+        if (projectile_p1_x_reg >= player_two_x_reg and projectile_p1_x_reg <= player_two_x_reg + CHAR_SIZE_X and projectile_p1_y_reg >= player_two_y_reg and projectile_p1_y_reg <= player_two_y_reg + CHAR_SIZE_Y) then
+            player_two_lives_next <= player_two_lives_reg - 1;
+        else 
+            player_two_lives_next <= player_two_lives_reg;
+        end if;
+
+        -- Collision with player 2
+        if (projectile_p1_x_reg >= player_two_x_reg and projectile_p1_x_reg <= player_two_x_reg + CHAR_SIZE_X and projectile_p1_y_reg >= player_two_y_reg and projectile_p1_y_reg <= player_two_y_reg + CHAR_SIZE_Y) then
+            collision_projectile_player_two <= '1';
+        else 
+            collision_projectile_player_two <= '0';
         end if;
 
     end process;
     ----------------------------------------------
     -- PRINT OBJECTS
     ----------------------------------------------
-    process (video_on, pix_x, pix_y, player_one_x_reg, player_one_y_reg, projectile_x_reg, projectile_y_reg)
+    process (video_on, pix_x, pix_y, player_one_x_reg, player_one_y_reg, projectile_p1_x_reg, projectile_p1_y_reg, player_one_lives_reg, player_two_lives_reg)
+        variable i : integer;
     begin
         if video_on = '0' then
             graph_rgb <= "000000000000"; -- Black when video is off
         else
+
             -- Player 1 Heart 1
-            if player_one_lives >= 1 and
+            if player_one_lives_reg >= 1 and
             (to_integer(pix_x) >= PLAYER_ONE_HEART_1_X and
             to_integer(pix_x) < PLAYER_ONE_HEART_1_X + HEART_SIZE_X and
             to_integer(pix_y) >= PLAYER_ONE_HEART_1_Y and
             to_integer(pix_y) < PLAYER_ONE_HEART_1_Y + HEART_SIZE_Y) then
                 graph_rgb <= HEART_ROM(to_integer(pix_y) - PLAYER_ONE_HEART_1_Y, to_integer(pix_x) - PLAYER_ONE_HEART_1_X);
 
-                -- Player 1 Heart 2
-            elsif player_one_lives >= 2 and
+            -- Player 1 Heart 2
+            elsif player_one_lives_reg >= 2 and
             (to_integer(pix_x) >= PLAYER_ONE_HEART_2_X and
             to_integer(pix_x) < PLAYER_ONE_HEART_2_X + HEART_SIZE_X and
             to_integer(pix_y) >= PLAYER_ONE_HEART_2_Y and
             to_integer(pix_y) < PLAYER_ONE_HEART_2_Y + HEART_SIZE_Y) then
                 graph_rgb <= HEART_ROM(to_integer(pix_y) - PLAYER_ONE_HEART_2_Y, to_integer(pix_x) - PLAYER_ONE_HEART_2_X);
 
-                -- Player 1 Heart 3
-            elsif player_one_lives >= 3 and
+            -- Player 1 Heart 3
+            elsif player_one_lives_reg >= 3 and
             (to_integer(pix_x) >= PLAYER_ONE_HEART_3_X and
             to_integer(pix_x) < PLAYER_ONE_HEART_3_X + HEART_SIZE_X and
             to_integer(pix_y) >= PLAYER_ONE_HEART_3_Y and
             to_integer(pix_y) < PLAYER_ONE_HEART_3_Y + HEART_SIZE_Y) then
                 graph_rgb <= HEART_ROM(to_integer(pix_y) - PLAYER_ONE_HEART_3_Y, to_integer(pix_x) - PLAYER_ONE_HEART_3_X);
 
-                -- Player 2 Heart 1
-            elsif player_two_lives >= 1 and
+            -- Player 2 Heart 1
+            elsif player_two_lives_reg >= 1 and
             (to_integer(pix_x) >= PLAYER_TWO_HEART_1_X and
             to_integer(pix_x) < PLAYER_TWO_HEART_1_X + HEART_SIZE_X and
             to_integer(pix_y) >= PLAYER_TWO_HEART_1_Y and
             to_integer(pix_y) < PLAYER_TWO_HEART_1_Y + HEART_SIZE_Y) then
                 graph_rgb <= HEART_ROM(to_integer(pix_y) - PLAYER_TWO_HEART_1_Y, to_integer(pix_x) - PLAYER_TWO_HEART_1_X);
 
-                -- Player 2 Heart 2
-            elsif player_two_lives >= 2 and
+            -- Player 2 Heart 2
+            elsif player_two_lives_reg >= 2 and
             (to_integer(pix_x) >= PLAYER_TWO_HEART_2_X and
             to_integer(pix_x) < PLAYER_TWO_HEART_2_X + HEART_SIZE_X and
             to_integer(pix_y) >= PLAYER_TWO_HEART_2_Y and
             to_integer(pix_y) < PLAYER_TWO_HEART_2_Y + HEART_SIZE_Y) then
                 graph_rgb <= HEART_ROM(to_integer(pix_y) - PLAYER_TWO_HEART_2_Y, to_integer(pix_x) - PLAYER_TWO_HEART_2_X);
 
-                -- Player 2 Heart 3
-            elsif player_two_lives >= 3 and
+            -- Player 2 Heart 3
+            elsif player_two_lives_reg >= 3 and
             (to_integer(pix_x) >= PLAYER_TWO_HEART_3_X and
             to_integer(pix_x) < PLAYER_TWO_HEART_3_X + HEART_SIZE_X and
             to_integer(pix_y) >= PLAYER_TWO_HEART_3_Y and
             to_integer(pix_y) < PLAYER_TWO_HEART_3_Y + HEART_SIZE_Y) then
                 graph_rgb <= HEART_ROM(to_integer(pix_y) - PLAYER_TWO_HEART_3_Y, to_integer(pix_x) - PLAYER_TWO_HEART_3_X);
 
-                -- Border print
+            -- Border print
             elsif
             (to_integer(pix_x) < BORDER_THICKNESS) or
             (to_integer(pix_x) >= MAX_X - BORDER_THICKNESS) or
@@ -557,7 +630,7 @@ begin
             (to_integer(pix_y) >= MAX_Y - BORDER_THICKNESS) then
                 graph_rgb <= "000000000000";
 
-                -- Level 1 print
+            -- Level 1 print
             elsif
             (to_integer(pix_y) >= LEVEL_1_Y and
             to_integer(pix_y) < LEVEL_1_Y + LEVEL_THICKNESS and
@@ -567,7 +640,7 @@ begin
             to_integer(pix_x) < LEVEL_1_PLAT2_END_X))) then
                 graph_rgb <= level_rgb;
 
-                -- Level 2 print
+            -- Level 2 print
             elsif
             (to_integer(pix_y) >= LEVEL_2_Y and
             to_integer(pix_y) < LEVEL_2_Y + LEVEL_THICKNESS and
@@ -579,7 +652,7 @@ begin
             to_integer(pix_x) < LEVEL_2_PLAT3_END_X))) then
                 graph_rgb <= level_rgb;
 
-                -- Level 3 print
+            -- Level 3 print
             elsif
             (to_integer(pix_y) >= LEVEL_3_Y and
             to_integer(pix_y) < LEVEL_3_Y + LEVEL_THICKNESS and
@@ -591,7 +664,7 @@ begin
             to_integer(pix_x) < LEVEL_3_PLAT3_END_X))) then
                 graph_rgb <= level_rgb;
 
-                -- Level 4 print
+            -- Level 4 print
             elsif
             (to_integer(pix_y) >= LEVEL_4_Y and
             to_integer(pix_y) < LEVEL_4_Y + LEVEL_THICKNESS and
@@ -601,15 +674,15 @@ begin
             to_integer(pix_x) < LEVEL_4_PLAT2_END_X))) then
                 graph_rgb <= level_rgb;
 
-                -- Projectile print
-            elsif
-            (to_integer(pix_x) >= projectile_x_reg and
-            to_integer(pix_x) < projectile_x_reg + PROJECTILE_SIZE_X and
-            to_integer(pix_y) >= projectile_y_reg and
-            to_integer(pix_y) < projectile_y_reg + PROJECTILE_SIZE_Y) then
-                graph_rgb <= PROJECTILE_ROM(to_integer(pix_y) - to_integer(projectile_y_reg), to_integer(pix_x) - to_integer(projectile_x_reg));
-
-                -- Player 1 print
+            -- Projectile print (only one projectile)
+            elsif 
+            (to_integer(pix_x) >= to_integer(projectile_p1_x_reg) and
+            to_integer(pix_x) < to_integer(projectile_p1_x_reg) + PROJECTILE_SIZE_X and
+            to_integer(pix_y) >= to_integer(projectile_p1_y_reg) and
+            to_integer(pix_y) < to_integer(projectile_p1_y_reg) + PROJECTILE_SIZE_Y) then
+                graph_rgb <= PROJECTILE_ROM(to_integer(pix_y) - to_integer(projectile_p1_y_reg), to_integer(pix_x) - to_integer(projectile_p1_x_reg));
+            
+            -- Player 1 print
             elsif
             (to_integer(pix_x) >= player_one_x_reg and
             to_integer(pix_x) < player_one_x_reg + CHAR_SIZE_X and
@@ -617,7 +690,7 @@ begin
             to_integer(pix_y) < player_one_y_reg + CHAR_SIZE_Y) then
                 graph_rgb <= AMERICAN_SOLDIER_IDLE_ROM(to_integer(pix_y) - to_integer(player_one_y_reg), to_integer(pix_x) - to_integer(player_one_x_reg));
 
-                -- Player 2 print
+            -- Player 2 print
             elsif
             (to_integer(pix_x) >= player_two_x_reg and
             to_integer(pix_x) < player_two_x_reg + CHAR_SIZE_X and

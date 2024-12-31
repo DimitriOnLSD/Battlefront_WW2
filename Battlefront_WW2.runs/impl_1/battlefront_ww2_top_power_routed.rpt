@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date             : Sun Dec 29 22:37:21 2024
+| Date             : Tue Dec 31 03:46:53 2024
 | Host             : LENOVO-LOQ-15IRX9 running 64-bit major release  (build 9200)
 | Command          : report_power -file battlefront_ww2_top_power_routed.rpt -pb battlefront_ww2_top_power_summary_routed.pb -rpx battlefront_ww2_top_power_routed.rpx
 | Design           : battlefront_ww2_top
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.187        |
+| Total On-Chip Power (W)  | 0.190        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.115        |
+| Dynamic (W)              | 0.118        |
 | Device Static (W)        | 0.072        |
 | Effective TJA (C/W)      | 5.0          |
-| Max Ambient (C)          | 84.1         |
-| Junction Temperature (C) | 25.9         |
+| Max Ambient (C)          | 84.0         |
+| Junction Temperature (C) | 26.0         |
 | Confidence Level         | Low          |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -52,18 +52,19 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Clocks         |    <0.001 |        8 |       --- |             --- |
-| Slice Logic    |     0.004 |     1105 |       --- |             --- |
-|   LUT as Logic |     0.004 |      747 |     20800 |            3.59 |
-|   CARRY4       |    <0.001 |       30 |      8150 |            0.37 |
-|   Register     |    <0.001 |      124 |     41600 |            0.30 |
+| Clocks         |     0.001 |        8 |       --- |             --- |
+| Slice Logic    |     0.004 |     1091 |       --- |             --- |
+|   LUT as Logic |     0.004 |      705 |     20800 |            3.39 |
+|   CARRY4       |    <0.001 |       33 |      8150 |            0.40 |
+|   Register     |    <0.001 |      117 |     41600 |            0.28 |
+|   F7/F8 Muxes  |    <0.001 |        1 |     32600 |           <0.01 |
 |   BUFG         |    <0.001 |        1 |        32 |            3.13 |
 |   Others       |     0.000 |       10 |       --- |             --- |
-| Signals        |     0.004 |      940 |       --- |             --- |
+| Signals        |     0.003 |      908 |       --- |             --- |
 | PLL            |     0.099 |        1 |         5 |           20.00 |
-| I/O            |     0.007 |       36 |       106 |           33.96 |
+| I/O            |     0.011 |       36 |       106 |           33.96 |
 | Static Power   |     0.072 |          |           |                 |
-| Total          |     0.187 |          |           |                 |
+| Total          |     0.190 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -74,8 +75,8 @@ Table of Contents
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Vccint    |       1.000 |     0.027 |       0.017 |      0.010 |       NA    | Unspecified | NA         |
-| Vccaux    |       1.800 |     0.063 |       0.050 |      0.013 |       NA    | Unspecified | NA         |
-| Vcco33    |       3.300 |     0.003 |       0.002 |      0.001 |       NA    | Unspecified | NA         |
+| Vccaux    |       1.800 |     0.063 |       0.051 |      0.013 |       NA    | Unspecified | NA         |
+| Vcco33    |       3.300 |     0.004 |       0.003 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -147,7 +148,7 @@ Table of Contents
 +------------------------+-----------+
 | Name                   | Power (W) |
 +------------------------+-----------+
-| battlefront_ww2_top    |     0.115 |
+| battlefront_ww2_top    |     0.118 |
 |   battelfront_ww2_unit |     0.005 |
 |   clock_unit           |     0.100 |
 |     inst               |     0.100 |

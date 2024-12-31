@@ -3,12 +3,12 @@
 # SW Build 5239630 on Fri Nov 08 22:35:27 MST 2024
 # IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
 # SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
-# Start of session at: Tue Dec 31 03:45:20 2024
-# Process ID         : 18848
-# Current directory  : C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.runs/synth_1
-# Command line       : vivado.exe -log battlefront_ww2_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source battlefront_ww2_top.tcl
-# Log file           : C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.runs/synth_1/battlefront_ww2_top.vds
-# Journal file       : C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.runs/synth_1\vivado.jou
+# Start of session at: Tue Dec 31 00:41:09 2024
+# Process ID         : 18800
+# Current directory  : C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.runs/impl_1
+# Command line       : vivado.exe -log battlefront_ww2_top.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source battlefront_ww2_top.tcl -notrace
+# Log file           : C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.runs/impl_1/battlefront_ww2_top.vdi
+# Journal file       : C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.runs/impl_1\vivado.jou
 # Running On         : LENOVO-LOQ-15IRX9
 # Platform           : Windows Server 2016 or Windows 10
 # Operating System   : 26100
@@ -19,6 +19,6 @@
 # Host memory        : 16873 MB
 # Swap memory        : 18253 MB
 # Total Virtual      : 35127 MB
-# Available Virtual  : 11269 MB
+# Available Virtual  : 13778 MB
 #-----------------------------------------------------------
 source battlefront_ww2_top.tcl -notrace
