@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date             : Tue Dec 31 16:41:41 2024
+| Date             : Fri Jan  3 01:22:23 2025
 | Host             : LENOVO-LOQ-15IRX9 running 64-bit major release  (build 9200)
 | Command          : report_power -file battlefront_ww2_top_power_routed.rpt -pb battlefront_ww2_top_power_summary_routed.pb -rpx battlefront_ww2_top_power_routed.rpx
 | Design           : battlefront_ww2_top
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.177        |
+| Total On-Chip Power (W)  | 0.179        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.105        |
+| Dynamic (W)              | 0.107        |
 | Device Static (W)        | 0.072        |
 | Effective TJA (C/W)      | 5.0          |
 | Max Ambient (C)          | 84.1         |
@@ -53,16 +53,18 @@ Table of Contents
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
 | Clocks         |    <0.001 |        8 |       --- |             --- |
-| Slice Logic    |     0.001 |     1517 |       --- |             --- |
-|   LUT as Logic |     0.001 |     1066 |     20800 |            5.13 |
+| Slice Logic    |     0.001 |     1475 |       --- |             --- |
+|   LUT as Logic |     0.001 |      987 |     20800 |            4.75 |
 |   CARRY4       |    <0.001 |       64 |      8150 |            0.79 |
-|   Register     |    <0.001 |      119 |     41600 |            0.29 |
-|   Others       |     0.000 |        8 |       --- |             --- |
-| Signals        |     0.001 |     1161 |       --- |             --- |
+|   Register     |    <0.001 |      145 |     41600 |            0.35 |
+|   F7/F8 Muxes  |    <0.001 |        6 |     32600 |            0.02 |
+|   Others       |     0.000 |       12 |       --- |             --- |
+| Signals        |     0.001 |     1086 |       --- |             --- |
+| Block RAM      |    <0.001 |      0.5 |        50 |            1.00 |
 | PLL            |     0.099 |        1 |         5 |           20.00 |
-| I/O            |     0.002 |       40 |       106 |           37.74 |
+| I/O            |     0.004 |       40 |       106 |           37.74 |
 | Static Power   |     0.072 |          |           |                 |
-| Total          |     0.177 |          |           |                 |
+| Total          |     0.179 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -72,7 +74,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.022 |       0.012 |      0.010 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.022 |       0.013 |      0.010 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.063 |       0.050 |      0.013 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.002 |       0.001 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -146,7 +148,7 @@ Table of Contents
 +---------------------+-----------+
 | Name                | Power (W) |
 +---------------------+-----------+
-| battlefront_ww2_top |     0.105 |
+| battlefront_ww2_top |     0.107 |
 |   clock_unit        |     0.100 |
 |     inst            |     0.100 |
 |   vga_sync_unit     |     0.002 |

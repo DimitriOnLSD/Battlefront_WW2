@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Tue Dec 31 16:41:23 2024
+| Date         : Fri Jan  3 01:22:03 2025
 | Host         : LENOVO-LOQ-15IRX9 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file battlefront_ww2_top_control_sets_placed.rpt
 | Design       : battlefront_ww2_top
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |    12 |
-|    Minimum number of control sets                        |    12 |
+| Total control sets                                       |    17 |
+|    Minimum number of control sets                        |    17 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    57 |
+| Unused register locations in slices containing registers |    87 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,13 +39,13 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |    12 |
+| Total control sets |    17 |
 | >= 0 to < 4        |     0 |
-| >= 4 to < 6        |     1 |
+| >= 4 to < 6        |     5 |
 | >= 6 to < 8        |     1 |
-| >= 8 to < 10       |     1 |
-| >= 10 to < 12      |     8 |
-| >= 12 to < 14      |     0 |
+| >= 8 to < 10       |     5 |
+| >= 10 to < 12      |     3 |
+| >= 12 to < 14      |     2 |
 | >= 14 to < 16      |     0 |
 | >= 16              |     1 |
 +--------------------+-------+
@@ -58,33 +58,38 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |               0 |            0 |
-| No           | No                    | Yes                    |               7 |            5 |
+| No           | No                    | No                     |               7 |            5 |
+| No           | No                    | Yes                    |              13 |            9 |
 | No           | Yes                   | No                     |               0 |            0 |
 | Yes          | No                    | No                     |               0 |            0 |
-| Yes          | No                    | Yes                    |             100 |           40 |
-| Yes          | Yes                   | No                     |              12 |            5 |
+| Yes          | No                    | Yes                    |             113 |           43 |
+| Yes          | Yes                   | No                     |              12 |            6 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+---------------------------+------------------------------------------+-------------------------------------------+------------------+----------------+--------------+
-|        Clock Signal       |               Enable Signal              |              Set/Reset Signal             | Slice Load Count | Bel Load Count | Bels / Slice |
-+---------------------------+------------------------------------------+-------------------------------------------+------------------+----------------+--------------+
-|  clock_unit/inst/clk_out1 | vga_sync_unit/rgb_reg0                   | vga_sync_unit/player_two_lives_reg_reg[1] |                1 |              4 |         4.00 |
-|  clock_unit/inst/clk_out1 |                                          | reset_IBUF                                |                5 |              7 |         1.40 |
-|  clock_unit/inst/clk_out1 | vga_sync_unit/rgb_reg0                   | vga_sync_unit/h_count_reg_reg[3]_0        |                4 |              8 |         2.00 |
-|  clock_unit/inst/clk_out1 | battelfront_ww2_unit/p2_y_reg[9]_i_1_n_0 | reset_IBUF                                |                4 |             10 |         2.50 |
-|  clock_unit/inst/clk_out1 | battelfront_ww2_unit/p1_x_reg[9]_i_1_n_0 | reset_IBUF                                |                3 |             10 |         3.33 |
-|  clock_unit/inst/clk_out1 | battelfront_ww2_unit/p1_y_reg[9]_i_1_n_0 | reset_IBUF                                |                4 |             10 |         2.50 |
-|  clock_unit/inst/clk_out1 | vga_sync_unit/p_tick                     | reset_IBUF                                |                4 |             10 |         2.50 |
-|  clock_unit/inst/clk_out1 | vga_sync_unit/v_count_reg0               | reset_IBUF                                |                4 |             10 |         2.50 |
-|  clock_unit/inst/clk_out1 | vga_sync_unit/E[0]                       | reset_IBUF                                |                4 |             10 |         2.50 |
-|  clock_unit/inst/clk_out1 | vga_sync_unit/v_count_reg_reg[0]_9[0]    | reset_IBUF                                |                5 |             10 |         2.00 |
-|  clock_unit/inst/clk_out1 | vga_sync_unit/v_count_reg_reg[0]_8[0]    | reset_IBUF                                |                4 |             10 |         2.50 |
-|  clock_unit/inst/clk_out1 | vga_sync_unit/refr_tick                  | reset_IBUF                                |                8 |             20 |         2.50 |
-+---------------------------+------------------------------------------+-------------------------------------------+------------------+----------------+--------------+
++----------------------------------------+-----------------------------------------------------+--------------------------------+------------------+----------------+--------------+
+|              Clock Signal              |                    Enable Signal                    |        Set/Reset Signal        | Slice Load Count | Bel Load Count | Bels / Slice |
++----------------------------------------+-----------------------------------------------------+--------------------------------+------------------+----------------+--------------+
+|  clock_unit/inst/clk_out1              |                                                     | battlefront_ww2_unit/p1_x_reg0 |                3 |              4 |         1.33 |
+|  clock_unit/inst/clk_out1              | battlefront_ww2_counter_unit/dig0_p2_reg[3]_i_1_n_0 | reset_IBUF                     |                1 |              4 |         4.00 |
+|  clock_unit/inst/clk_out1              | battlefront_ww2_counter_unit/dig1_p1_reg[3]_i_1_n_0 | reset_IBUF                     |                1 |              4 |         4.00 |
+|  clock_unit/inst/clk_out1              | battlefront_ww2_counter_unit/dig1_p2_reg[3]_i_1_n_0 | reset_IBUF                     |                1 |              4 |         4.00 |
+|  clock_unit/inst/clk_out1              | battlefront_ww2_counter_unit/dp1_inc                | reset_IBUF                     |                1 |              4 |         4.00 |
+|  vga_sync_unit/h_count_reg_reg[5]_1[0] |                                                     |                                |                5 |              7 |         1.40 |
+|  clock_unit/inst/clk_out1              |                                                     | reset_IBUF                     |                6 |              9 |         1.50 |
+|  clock_unit/inst/clk_out1              | battlefront_ww2_unit/p1_x_reg[9]_i_1_n_0            | battlefront_ww2_unit/p1_x_reg0 |                3 |              9 |         3.00 |
+|  clock_unit/inst/clk_out1              | battlefront_ww2_unit/p1_y_reg[9]_i_1_n_0            | battlefront_ww2_unit/p1_x_reg0 |                3 |              9 |         3.00 |
+|  clock_unit/inst/clk_out1              | battlefront_ww2_unit/p2_y_reg[9]_i_1_n_0            | battlefront_ww2_unit/p1_x_reg0 |                3 |              9 |         3.00 |
+|  clock_unit/inst/clk_out1              | battlefront_ww2_unit/p2_x_reg[9]_i_1_n_0            | battlefront_ww2_unit/p1_x_reg0 |                3 |              9 |         3.00 |
+|  clock_unit/inst/clk_out1              | vga_sync_unit/pixel_tick                            | reset_IBUF                     |                6 |             10 |         1.67 |
+|  clock_unit/inst/clk_out1              | vga_sync_unit/E[0]                                  | battlefront_ww2_unit/p1_x_reg0 |                4 |             10 |         2.50 |
+|  clock_unit/inst/clk_out1              | vga_sync_unit/v_count_reg_reg[0]_rep__1_0[0]        | battlefront_ww2_unit/p1_x_reg0 |                4 |             10 |         2.50 |
+|  clock_unit/inst/clk_out1              | vga_sync_unit/mod2_reg_reg_0[0]                     | vga_sync_unit/SR[0]            |                6 |             12 |         2.00 |
+|  clock_unit/inst/clk_out1              | vga_sync_unit/v_count_reg0                          | reset_IBUF                     |                6 |             13 |         2.17 |
+|  clock_unit/inst/clk_out1              | vga_sync_unit/refr_tick                             | battlefront_ww2_unit/p1_x_reg0 |                7 |             18 |         2.57 |
++----------------------------------------+-----------------------------------------------------+--------------------------------+------------------+----------------+--------------+
 
 

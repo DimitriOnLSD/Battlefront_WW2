@@ -10,7 +10,11 @@ entity battlefront_ww2 is
 		btn              : in std_logic_vector(3 downto 0);
 		sw               : in std_logic_vector(3 downto 0);
 		graph_rgb        : out std_logic_vector(11 downto 0);
-		led              : out std_logic_vector(15 downto 0)
+		led              : out std_logic_vector(15 downto 0);
+        p1_hit_p2_out    : out std_logic;
+        p2_hit_p1_out    : out std_logic;
+        gra_still        : in std_logic;
+        over             : in std_logic
 	);
 end battlefront_ww2;
 
@@ -40,42 +44,42 @@ architecture arch of battlefront_ww2 is
 	constant LEVEL_2_WIDTH   : integer := 128;
 	constant LEVEL_3_WIDTH   : integer := 256;
     ----------------------------------------------
-    constant L0_Y : integer := MAX_Y - BORDER_THICKNESS; -- Bottom platform
+    constant L0_Y : integer := MAX_Y - BORDER_THICKNESS;
     ----------------------------------------------
 	constant L1_Y    : integer := MAX_Y - BORDER_THICKNESS - LEVEL_DISTANCE - LEVEL_THICKNESS;
-	constant L1P1_X1 : integer := LEFT_MARGIN;                                                         
-	constant L1P1_X2 : integer := LEFT_MARGIN + LEVEL_1_WIDTH;                                       
-	constant L1P2_X1 : integer := 200;                                                                 
-	constant L1P2_X2 : integer := 200 + LEVEL_3_WIDTH;                                               
+	constant L1P1_X1 : integer := LEFT_MARGIN;                                               
+	constant L1P1_X2 : integer := LEFT_MARGIN + LEVEL_1_WIDTH;                             
+	constant L1P2_X1 : integer := L1P1_X2 + LEVEL_2_WIDTH;                                                       
+	constant L1P2_X2 : integer := L1P2_X1 + LEVEL_3_WIDTH;                                     
     ----------------------------------------------	
-    constant L2_Y    : integer := L1_Y - LEVEL_DISTANCE - LEVEL_THICKNESS;               
-	constant L2P1_X1 : integer := LEFT_MARGIN;                                           
-	constant L2P1_X2 : integer := L2P1_X1 + 120;                           
-	constant L2P2_X1 : integer := L2P1_X2 + 155;                             
-	constant L2P2_X2 : integer := L2P2_X1 + 60;                            
-	constant L2P3_X1 : integer := MAX_X - BORDER_THICKNESS - 60;                         
-	constant L2P3_X2 : integer := MAX_X - BORDER_THICKNESS;                              
+    constant L2_Y    : integer := L1_Y - LEVEL_DISTANCE - LEVEL_THICKNESS;     
+	constant L2P1_X1 : integer := LEFT_MARGIN + LEVEL_1_WIDTH;                                 
+	constant L2P1_X2 : integer := L2P1_X1 + LEVEL_2_WIDTH;                 
+	constant L2P2_X1 : integer := L2P1_X2 + LEVEL_1_WIDTH;                   
+	constant L2P2_X2 : integer := L2P2_X1 + LEVEL_2_WIDTH;                  
+	constant L2P3_X1 : integer := MAX_X - BORDER_THICKNESS - LEVEL_2_WIDTH;               
+	constant L2P3_X2 : integer := MAX_X - BORDER_THICKNESS;                    
     ----------------------------------------------	
-    constant L3_Y    : integer := L2_Y - LEVEL_DISTANCE - LEVEL_THICKNESS;          
-	constant L3P1_X1 : integer := LEFT_MARGIN;                                           
-	constant L3P1_X2 : integer := LEFT_MARGIN + 60;                                      
-	constant L3P2_X1 : integer := MAX_X - BORDER_THICKNESS - 150;                        
-	constant L3P2_X2 : integer := MAX_X - BORDER_THICKNESS;                              
-	constant L3P3_X1 : integer := (MAX_X - 60) / 2 - 50;                                 
-	constant L3P3_X2 : integer := L3P3_X1 + 60;                            
+    constant L3_Y    : integer := L2_Y - LEVEL_DISTANCE - LEVEL_THICKNESS;
+	constant L3P1_X1 : integer := LEFT_MARGIN;                                 
+	constant L3P1_X2 : integer := L3P1_X1 + LEVEL_1_WIDTH;                            
+	constant L3P2_X1 : integer := L3P1_X2;              
+	constant L3P2_X2 : integer := L3P2_X1 + LEVEL_2_WIDTH;                    
+	constant L3P3_X1 : integer := MAX_X - BORDER_THICKNESS - LEVEL_1_WIDTH;                    
+	constant L3P3_X2 : integer := L3P3_X1 + LEVEL_1_WIDTH;                  
     ----------------------------------------------	
-    constant L4_Y    : integer := L3_Y - LEVEL_DISTANCE - LEVEL_THICKNESS;          
-	constant L4P1_X1 : integer := LEFT_MARGIN;                                           
-	constant L4P1_X2 : integer := LEFT_MARGIN + 60;                                      
-	constant L4P2_X1 : integer := LEFT_MARGIN + 240;                                     
-	constant L4P2_X2 : integer := LEFT_MARGIN + 240 + LEVEL_3_WIDTH;                     
+    constant L4_Y    : integer := L3_Y - LEVEL_DISTANCE - LEVEL_THICKNESS;
+	constant L4P1_X1 : integer := LEFT_MARGIN;
+	constant L4P1_X2 : integer := L4P1_X1 + LEVEL_1_WIDTH;
+	constant L4P2_X1 : integer := LEFT_MARGIN + LEVEL_3_WIDTH;
+	constant L4P2_X2 : integer := L4P2_X1 + LEVEL_3_WIDTH;
 	----------------------------------------------
 	-- ITEMS & CHARACTER ROMS
 	----------------------------------------------
 	constant CHAR_SIZE_X             : integer := 32;
 	constant CHAR_SIZE_Y             : integer := 32;
-	constant CHAR_V_X                : integer := 1;
-	constant CHAR_V_Y                : integer := 1;
+	constant CHAR_V_X                : integer := 2;
+	constant CHAR_V_Y                : integer := 2;
 	constant FEET_POSITION           : integer := 20;
 	constant HEAD_POSITION           : integer := 18;
 	constant HEAD_TO_BARREL_DISTANCE : integer := 11;
@@ -251,10 +255,10 @@ architecture arch of battlefront_ww2 is
     ----------------------------------------------
     -- SPAWN CONSTANTS, CHARACTERS AND PROJECTILES SIGNALS
     ----------------------------------------------
-    constant player_one_spawn_x : integer := MAX_X/2 - CHAR_SIZE_X/2;
+    constant player_one_spawn_x : integer := LEFT_MARGIN + CHAR_SIZE_X - CHAR_SIZE_X/2;
     constant player_one_spawn_y : integer := MAX_Y - CHAR_SIZE_X * 2;
     ----------------------------------------------
-    constant player_two_spawn_x : integer := MAX_X/2 - CHAR_SIZE_X/2;
+    constant player_two_spawn_x : integer := RIGHT_MARGIN - LEVEL_1_WIDTH - CHAR_SIZE_X - CHAR_SIZE_X/2;
     constant player_two_spawn_y : integer := L4_Y - CHAR_SIZE_Y;
     ----------------------------------------------
     signal player_one_lives_reg, player_one_lives_next  : integer range 0 to 3 := 3;
@@ -312,9 +316,9 @@ begin
 	----------------------------------------------
 	-- REFERENCE TICK AND RESET LOGIC
 	----------------------------------------------
-	process (clk, reset)
+	process (clk, reset, over)
 	begin
-		if reset = '1' then
+		if reset = '1' or over = '1' then
 			p1_x_reg <= to_unsigned(player_one_spawn_x, 10);
 			p1_y_reg <= to_unsigned(player_one_spawn_y, 10);
 			p2_x_reg <= to_unsigned(player_two_spawn_x, 10);
@@ -341,62 +345,22 @@ begin
 	pix_x <= unsigned(pixel_x);
 	pix_y <= unsigned(pixel_y);
 	refr_tick <= '1' when (pix_y = 481) and (pix_x = 0) else '0';
-    ----------------------------------------------
-	-- LED DEBUG
-	----------------------------------------------
-    process (p1_collision_margin_top, p1_collision_margin_bottom, p1_collision_margin_left, p1_collision_margin_right, p1_collision_top, p1_collision_bottom)
-    begin
-
-        if p1_collision_margin_top = '1' then
-            led(0) <= '1';
-        else
-            led(0) <= '0';
-        end if;
-
-        if p1_collision_margin_bottom = '1' then
-            led(1) <= '1';
-        else
-            led(1) <= '0';
-        end if;
-
-        if p1_collision_margin_left = '1' then
-            led(2) <= '1';
-        else
-            led(2) <= '0';
-        end if;
-
-        if p1_collision_margin_right = '1' then
-            led(3) <= '1';
-        else
-            led(3) <= '0';
-        end if;
-
-        if p1_collision_top = '1' then
-            led(4) <= '1';
-        else
-            led(4) <= '0';
-        end if;
-
-        if p1_collision_bottom = '1' then
-            led(5) <= '1';
-        else
-            led(5) <= '0';
-        end if;
-
-    end process;
 	----------------------------------------------
 	-- PLAYER ONE MOVEMENT & SHOOTING LOGIC
 	----------------------------------------------
-    process (refr_tick, btn, p1_x_reg, p1_y_reg, projectile_p1_x_reg, projectile_p1_y_reg, 
+    process (
+        refr_tick, btn, 
+        p1_x_reg, p1_y_reg, 
+        projectile_p1_x_reg, projectile_p1_y_reg, 
         p1_collision_margin_top, p1_collision_margin_bottom, 
         p1_collision_margin_left, p1_collision_margin_right, 
         p1_collision_top, p1_collision_bottom, p1_hit_border, p1_hit_p2)
     begin
-    -- Default assignments to avoid latches
-    p1_x_next <= p1_x_reg;
-    p1_y_next <= p1_y_reg;
-    projectile_p1_x_next <= projectile_p1_x_reg;
-    projectile_p1_y_next <= projectile_p1_y_reg;
+        -- Default assignments to avoid latches
+        p1_x_next <= p1_x_reg;
+        p1_y_next <= p1_y_reg;
+        projectile_p1_x_next <= projectile_p1_x_reg;
+        projectile_p1_y_next <= projectile_p1_y_reg;
 
         if refr_tick = '1' then
 
@@ -416,7 +380,7 @@ begin
                 if (p1_collision_margin_top = '0') and (p1_collision_top = '0') then
                     p1_y_next <= p1_y_reg - CHAR_V_Y;
                 end if;
-            else -- Move down
+            else -- Fall down
                 if (p1_collision_margin_bottom = '0') and (p1_collision_bottom = '0') then
                     p1_y_next <= p1_y_reg + CHAR_V_Y;
                 elsif (p1_collision_top = '1') then
@@ -446,19 +410,19 @@ begin
     ----------------------------------------------
 	-- PLAYER TWO MOVEMENT & SHOOTING LOGIC
 	----------------------------------------------
-    process (refr_tick, sw, 
+    process (
+        refr_tick, sw, 
         p2_x_reg, p2_y_reg, 
         projectile_p2_x_reg, projectile_p2_y_reg, 
         p2_collision_margin_top, p2_collision_margin_bottom, 
         p2_collision_margin_left, p2_collision_margin_right, 
-        p2_collision_top, p2_collision_bottom, 
-        p2_hit_border, p2_hit_p1)
+        p2_collision_top, p2_collision_bottom, p2_hit_border, p2_hit_p1)
     begin
-    -- Default assignments to avoid latches
-    p2_x_next <= p2_x_reg;
-    p2_y_next <= p2_y_reg;
-    projectile_p2_x_next <= projectile_p2_x_reg;
-    projectile_p2_y_next <= projectile_p2_y_reg;
+        -- Default assignments to avoid latches
+        p2_x_next <= p2_x_reg;
+        p2_y_next <= p2_y_reg;
+        projectile_p2_x_next <= projectile_p2_x_reg;
+        projectile_p2_y_next <= projectile_p2_y_reg;
 
         if refr_tick = '1' then
 
@@ -478,7 +442,7 @@ begin
                 if (p2_collision_margin_top = '0') and (p2_collision_top = '0') then
                     p2_y_next <= p2_y_reg - CHAR_V_Y;
                 end if;
-            else -- Move down
+            else -- Fall down
                 if (p2_collision_margin_bottom = '0') and (p2_collision_bottom = '0') then
                     p2_y_next <= p2_y_reg + CHAR_V_Y;
                 elsif (p2_collision_top = '1') then
@@ -507,21 +471,29 @@ begin
 
     end process;
     ----------------------------------------------
-    -- COLLISION BORDER LOGIC
+    -- COLLISION LOGIC
     ----------------------------------------------
     process (p1_x_reg, p1_y_reg, p2_x_reg, p2_y_reg)
     begin
         -- Default collision states for Player 1
         p1_collision_margin_bottom <= '0';
-        p1_collision_margin_top <= '0';
-        p1_collision_margin_left <= '0';
-        p1_collision_margin_right <= '0';
+        p1_collision_margin_top    <= '0';
+        p1_collision_margin_left   <= '0';
+        p1_collision_margin_right  <= '0';
+        p1_collision_top           <= '0';
+        p1_collision_bottom        <= '0';
+        p1_collision_left_side     <= '0';
+        p1_collision_right_side    <= '0';
     
         -- Default collision states for Player 2
         p2_collision_margin_bottom <= '0';
-        p2_collision_margin_top <= '0';
-        p2_collision_margin_left <= '0';
-        p2_collision_margin_right <= '0';
+        p2_collision_margin_top    <= '0';
+        p2_collision_margin_left   <= '0';
+        p2_collision_margin_right  <= '0';
+        p2_collision_top           <= '0';
+        p2_collision_bottom        <= '0';
+        p2_collision_left_side     <= '0';
+        p2_collision_right_side    <= '0';
     
         -- Player 1 Collision Detection
         if (p1_y_reg >= (L0_Y - CHAR_SIZE_Y)) then
@@ -548,13 +520,7 @@ begin
         elsif (p2_x_reg >= (RIGHT_MARGIN - CHAR_SIZE_X)) then
             p2_collision_margin_right <= '1'; -- Right border collision
         end if;
-    
-    end process;
-    ----------------------------------------------
-    -- COLLISION PLATFORM LOGIC
-    ----------------------------------------------
-    process (p1_x_reg, p1_y_reg, p2_x_reg, p2_y_reg)
-    begin
+
         -- Player 1 collision with feet on platforms
         -- Each line represents a platform
         if 
@@ -569,8 +535,6 @@ begin
         ((p1_x_reg + FEET_POSITION > L4P1_X1) and (p1_x_reg < L4P1_X2) and (p1_y_reg + CHAR_SIZE_Y >= L4_Y) and (p1_y_reg < L4_Y + LEVEL_THICKNESS)) or
         ((p1_x_reg + FEET_POSITION > L4P2_X1) and (p1_x_reg < L4P2_X2) and (p1_y_reg + CHAR_SIZE_Y >= L4_Y) and (p1_y_reg < L4_Y + LEVEL_THICKNESS)) then
             p1_collision_bottom <= '1';
-        else
-            p1_collision_bottom <= '0';
         end if;
 
         -- Player 1 collision with head on platforms
@@ -587,8 +551,6 @@ begin
         ((p1_x_reg + HEAD_POSITION > L4P1_X1) and (p1_x_reg < L4P1_X2) and (p1_y_reg <= L4_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L4_Y)) or
         ((p1_x_reg + HEAD_POSITION > L4P2_X1) and (p1_x_reg < L4P2_X2) and (p1_y_reg <= L4_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L4_Y)) then
             p1_collision_top <= '1';
-        else
-            p1_collision_top <= '0';
         end if;
 
         -- Player 2 collision with feet on platforms
@@ -605,8 +567,6 @@ begin
         ((p2_x_reg + FEET_POSITION > L4P1_X1) and (p2_x_reg < L4P1_X2) and (p2_y_reg + CHAR_SIZE_Y >= L4_Y) and (p2_y_reg < L4_Y + LEVEL_THICKNESS)) or
         ((p2_x_reg + FEET_POSITION > L4P2_X1) and (p2_x_reg < L4P2_X2) and (p2_y_reg + CHAR_SIZE_Y >= L4_Y) and (p2_y_reg < L4_Y + LEVEL_THICKNESS)) then
             p2_collision_bottom <= '1';
-        else
-            p2_collision_bottom <= '0';
         end if;
 
         -- Player 2 collision with head on platforms
@@ -623,8 +583,6 @@ begin
         ((p2_x_reg + HEAD_POSITION > L4P1_X1) and (p2_x_reg < L4P1_X2) and (p2_y_reg <= L4_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L4_Y)) or
         ((p2_x_reg + HEAD_POSITION > L4P2_X1) and (p2_x_reg < L4P2_X2) and (p2_y_reg <= L4_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L4_Y)) then
             p2_collision_top <= '1';
-        else
-            p2_collision_top <= '0';
         end if;
 
     end process;
@@ -632,6 +590,7 @@ begin
     -- HITBOX LOGIC
     ----------------------------------------------
     process (
+        refr_tick,
         projectile_p1_x_reg, projectile_p1_y_reg, 
         projectile_p2_x_reg, projectile_p2_y_reg, 
         p1_x_reg, p1_y_reg, 
@@ -639,45 +598,62 @@ begin
         player_one_lives_reg, 
         player_two_lives_reg)
     begin 
-    
-        -- Bullet hit border checks
-        if projectile_p1_x_reg >= (RIGHT_MARGIN - PROJECTILE_SIZE_X) then
-            p1_hit_border <= '1';
-        else
-            p1_hit_border <= '0';
-        end if;
-    
-        if projectile_p2_x_reg <= LEFT_MARGIN then
-            p2_hit_border <= '1';
-        else
-            p2_hit_border <= '0';
-        end if;
-    
-        -- Player 2 hit Player 1
-        if (projectile_p2_x_reg >= p1_x_reg and projectile_p2_x_reg <= p1_x_reg + CHAR_SIZE_X and 
-            projectile_p2_y_reg >= p1_y_reg and projectile_p2_y_reg <= p1_y_reg + CHAR_SIZE_Y) then
-            player_one_lives_next <= player_one_lives_reg - 1;
-            p2_hit_p1 <= '1';
-        else
-            player_one_lives_next <= player_one_lives_reg;
-            p2_hit_p1 <= '0';
-        end if;
-    
-        -- Player 1 hit Player 2
-        if (projectile_p1_x_reg >= p2_x_reg and projectile_p1_x_reg <= p2_x_reg + CHAR_SIZE_X and 
-            projectile_p1_y_reg >= p2_y_reg and projectile_p1_y_reg <= p2_y_reg + CHAR_SIZE_Y) then
-            player_two_lives_next <= player_two_lives_reg - 1;
-            p1_hit_p2 <= '1';
-        else
-            player_two_lives_next <= player_two_lives_reg;
-            p1_hit_p2 <= '0';
+        -- Default hit states
+        p1_hit_border <= '0';
+        p2_hit_border <= '0';
+
+        p1_hit_p2 <= '0';
+        p2_hit_p1 <= '0';
+
+        p1_hit_p2_out <= '0';
+        p2_hit_p1_out <= '0';
+
+        player_one_lives_next <= player_one_lives_reg;
+        player_two_lives_next <= player_two_lives_reg;
+
+        if refr_tick = '1' then
+
+            -- Bullet hit border checks
+            if projectile_p1_x_reg >= (RIGHT_MARGIN - PROJECTILE_SIZE_X) then
+                p1_hit_border <= '1';
+            end if;
+        
+            if projectile_p2_x_reg <= LEFT_MARGIN then
+                p2_hit_border <= '1';
+            end if;
+        
+            -- Player 2 hit Player 1
+            if (projectile_p2_x_reg >= p1_x_reg and projectile_p2_x_reg <= p1_x_reg + CHAR_SIZE_X and 
+                projectile_p2_y_reg >= p1_y_reg and projectile_p2_y_reg <= p1_y_reg + CHAR_SIZE_Y) then
+                player_one_lives_next <= player_one_lives_reg - 1;
+                p2_hit_p1 <= '1';
+                p2_hit_p1_out <= '1';
+            end if;
+        
+            -- Player 1 hit Player 2
+            if (projectile_p1_x_reg >= p2_x_reg and projectile_p1_x_reg <= p2_x_reg + CHAR_SIZE_X and 
+                projectile_p1_y_reg >= p2_y_reg and projectile_p1_y_reg <= p2_y_reg + CHAR_SIZE_Y) then
+                player_two_lives_next <= player_two_lives_reg - 1;
+                p1_hit_p2 <= '1';
+                p1_hit_p2_out <= '1';
+            end if;
+        
         end if;
     
     end process;
     ----------------------------------------------
     -- PRINT OBJECTS
     ----------------------------------------------
-    process (video_on, level_rgb, inner_rgb, pix_x, pix_y, p1_x_reg, p1_y_reg, p2_x_reg, p2_y_reg, projectile_p1_x_reg, projectile_p1_y_reg, projectile_p2_x_reg, projectile_p2_y_reg, player_one_lives_reg, player_two_lives_reg)
+    process (
+        video_on, 
+        level_rgb, inner_rgb, 
+        pix_x, pix_y, 
+        p1_x_reg, p1_y_reg, 
+        p2_x_reg, p2_y_reg, 
+        projectile_p1_x_reg, projectile_p1_y_reg, 
+        projectile_p2_x_reg, projectile_p2_y_reg, 
+        player_one_lives_reg, 
+        player_two_lives_reg)
     begin
         if video_on = '0' then
             graph_rgb <= "000000000000"; -- Black when video is off
