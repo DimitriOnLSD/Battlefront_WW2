@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Fri Jan  3 01:22:22 2025
+| Date         : Mon Jan 20 20:42:28 2025
 | Host         : LENOVO-LOQ-15IRX9 running 64-bit major release  (build 9200)
 | Command      : report_methodology -file battlefront_ww2_top_methodology_drc_routed.rpt -pb battlefront_ww2_top_methodology_drc_routed.pb -rpx battlefront_ww2_top_methodology_drc_routed.rpx
 | Design       : battlefront_ww2_top
@@ -23,14 +23,14 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max checks: <unlimited>
-             Checks found: 14
+             Checks found: 95
 +-----------+------------------+------------------------------------------------------------------+--------+
 | Rule      | Severity         | Description                                                      | Checks |
 +-----------+------------------+------------------------------------------------------------------+--------+
 | TIMING-6  | Critical Warning | No common primary clock between related clocks                   | 2      |
 | LUTAR-1   | Warning          | LUT drives async reset alert                                     | 1      |
 | SYNTH-6   | Warning          | Timing of a RAM block might be sub-optimal                       | 1      |
-| TIMING-20 | Warning          | Non-clocked latch                                                | 7      |
+| TIMING-20 | Warning          | Non-clocked latch                                                | 88     |
 | TIMING-56 | Warning          | Missing logically or physically excluded clock groups constraint | 2      |
 | LATCH-1   | Advisory         | Existing latches in the design                                   | 1      |
 +-----------+------------------+------------------------------------------------------------------+--------+
@@ -49,7 +49,7 @@ Related violations: <none>
 
 LUTAR-1#1 Warning
 LUT drives async reset alert  
-LUT cell battlefront_ww2_unit/projectile_p1_x_reg[9]_i_3, with 2 or more inputs, drives asynchronous preset/clear pin(s) battlefront_ww2_unit/projectile_p2_x_reg_reg[5]/CLR,
+LUT cell battlefront_ww2_unit/p2_y_reg[8]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) battlefront_ww2_unit/projectile_p2_x_reg_reg[5]/CLR,
 battlefront_ww2_unit/projectile_p2_x_reg_reg[6]/CLR,
 battlefront_ww2_unit/projectile_p2_x_reg_reg[7]/CLR,
 battlefront_ww2_unit/projectile_p2_x_reg_reg[8]/CLR,
@@ -74,37 +74,442 @@ Related violations: <none>
 
 TIMING-20#1 Warning
 Non-clocked latch  
-The latch battlefront_ww2_text_unit/char_addr_reg[0] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[0]/G is not reached by a timing clock
+The latch battlefront_ww2_text_unit/bit_addr_reg[0] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/bit_addr_reg[0]/G is not reached by a timing clock
 Related violations: <none>
 
 TIMING-20#2 Warning
 Non-clocked latch  
-The latch battlefront_ww2_text_unit/char_addr_reg[1] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[1]/G is not reached by a timing clock
+The latch battlefront_ww2_text_unit/bit_addr_reg[1] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/bit_addr_reg[1]/G is not reached by a timing clock
 Related violations: <none>
 
 TIMING-20#3 Warning
 Non-clocked latch  
-The latch battlefront_ww2_text_unit/char_addr_reg[2] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[2]/G is not reached by a timing clock
+The latch battlefront_ww2_text_unit/bit_addr_reg[2] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/bit_addr_reg[2]/G is not reached by a timing clock
 Related violations: <none>
 
 TIMING-20#4 Warning
 Non-clocked latch  
-The latch battlefront_ww2_text_unit/char_addr_reg[3] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[3]/G is not reached by a timing clock
+The latch battlefront_ww2_text_unit/char_addr_reg[0] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[0]/G is not reached by a timing clock
 Related violations: <none>
 
 TIMING-20#5 Warning
 Non-clocked latch  
-The latch battlefront_ww2_text_unit/char_addr_reg[4] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[4]/G is not reached by a timing clock
+The latch battlefront_ww2_text_unit/char_addr_reg[1] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[1]/G is not reached by a timing clock
 Related violations: <none>
 
 TIMING-20#6 Warning
 Non-clocked latch  
-The latch battlefront_ww2_text_unit/char_addr_reg[5] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[5]/G is not reached by a timing clock
+The latch battlefront_ww2_text_unit/char_addr_reg[2] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[2]/G is not reached by a timing clock
 Related violations: <none>
 
 TIMING-20#7 Warning
 Non-clocked latch  
+The latch battlefront_ww2_text_unit/char_addr_reg[3] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[3]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#8 Warning
+Non-clocked latch  
+The latch battlefront_ww2_text_unit/char_addr_reg[4] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[4]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#9 Warning
+Non-clocked latch  
+The latch battlefront_ww2_text_unit/char_addr_reg[5] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[5]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#10 Warning
+Non-clocked latch  
 The latch battlefront_ww2_text_unit/char_addr_reg[6] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/char_addr_reg[6]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#11 Warning
+Non-clocked latch  
+The latch battlefront_ww2_text_unit/row_addr_reg[0] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/row_addr_reg[0]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#12 Warning
+Non-clocked latch  
+The latch battlefront_ww2_text_unit/row_addr_reg[1] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/row_addr_reg[1]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#13 Warning
+Non-clocked latch  
+The latch battlefront_ww2_text_unit/row_addr_reg[2] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/row_addr_reg[2]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#14 Warning
+Non-clocked latch  
+The latch battlefront_ww2_text_unit/row_addr_reg[3] cannot be properly analyzed as its control pin battlefront_ww2_text_unit/row_addr_reg[3]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#15 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_x_next_reg[1] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_x_next_reg[1]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#16 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_x_next_reg[2] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_x_next_reg[2]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#17 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_x_next_reg[3] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_x_next_reg[3]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#18 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_x_next_reg[4] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_x_next_reg[4]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#19 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_x_next_reg[5] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_x_next_reg[5]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#20 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_x_next_reg[6] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_x_next_reg[6]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#21 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_x_next_reg[7] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_x_next_reg[7]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#22 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_x_next_reg[8] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_x_next_reg[8]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#23 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_x_next_reg[9] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_x_next_reg[9]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#24 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_y_next_reg[1] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_y_next_reg[1]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#25 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_y_next_reg[2] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_y_next_reg[2]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#26 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_y_next_reg[3] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_y_next_reg[3]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#27 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_y_next_reg[4] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_y_next_reg[4]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#28 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_y_next_reg[5] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_y_next_reg[5]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#29 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_y_next_reg[6] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_y_next_reg[6]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#30 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_y_next_reg[7] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_y_next_reg[7]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#31 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p1_y_next_reg[8] cannot be properly analyzed as its control pin battlefront_ww2_unit/p1_y_next_reg[8]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#32 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_x_next_reg[1] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_x_next_reg[1]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#33 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_x_next_reg[2] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_x_next_reg[2]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#34 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_x_next_reg[3] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_x_next_reg[3]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#35 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_x_next_reg[4] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_x_next_reg[4]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#36 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_x_next_reg[5] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_x_next_reg[5]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#37 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_x_next_reg[6] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_x_next_reg[6]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#38 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_x_next_reg[7] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_x_next_reg[7]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#39 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_x_next_reg[8] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_x_next_reg[8]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#40 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_x_next_reg[9] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_x_next_reg[9]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#41 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_y_next_reg[1] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_y_next_reg[1]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#42 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_y_next_reg[2] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_y_next_reg[2]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#43 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_y_next_reg[3] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_y_next_reg[3]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#44 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_y_next_reg[4] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_y_next_reg[4]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#45 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_y_next_reg[5] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_y_next_reg[5]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#46 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_y_next_reg[6] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_y_next_reg[6]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#47 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_y_next_reg[7] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_y_next_reg[7]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#48 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/p2_y_next_reg[8] cannot be properly analyzed as its control pin battlefront_ww2_unit/p2_y_next_reg[8]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#49 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_active_next_reg cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_active_next_reg/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#50 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_x_next_reg[1] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_x_next_reg[1]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#51 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_x_next_reg[2] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_x_next_reg[2]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#52 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_x_next_reg[3] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_x_next_reg[3]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#53 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_x_next_reg[4] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_x_next_reg[4]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#54 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_x_next_reg[5] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_x_next_reg[5]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#55 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_x_next_reg[6] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_x_next_reg[6]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#56 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_x_next_reg[7] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_x_next_reg[7]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#57 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_x_next_reg[8] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_x_next_reg[8]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#58 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_x_next_reg[9] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_x_next_reg[9]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#59 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_y_next_reg[0] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_y_next_reg[0]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#60 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_y_next_reg[1] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_y_next_reg[1]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#61 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_y_next_reg[2] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_y_next_reg[2]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#62 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_y_next_reg[3] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_y_next_reg[3]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#63 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_y_next_reg[4] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_y_next_reg[4]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#64 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_y_next_reg[5] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_y_next_reg[5]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#65 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_y_next_reg[6] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_y_next_reg[6]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#66 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_y_next_reg[7] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_y_next_reg[7]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#67 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_y_next_reg[8] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_y_next_reg[8]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#68 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p1_y_next_reg[9] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p1_y_next_reg[9]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#69 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_active_next_reg cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_active_next_reg/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#70 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_x_next_reg[1] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_x_next_reg[1]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#71 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_x_next_reg[2] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_x_next_reg[2]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#72 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_x_next_reg[3] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_x_next_reg[3]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#73 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_x_next_reg[4] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_x_next_reg[4]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#74 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_x_next_reg[5] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_x_next_reg[5]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#75 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_x_next_reg[6] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_x_next_reg[6]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#76 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_x_next_reg[7] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_x_next_reg[7]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#77 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_x_next_reg[8] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_x_next_reg[8]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#78 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_x_next_reg[9] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_x_next_reg[9]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#79 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_y_next_reg[0] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_y_next_reg[0]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#80 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_y_next_reg[1] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_y_next_reg[1]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#81 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_y_next_reg[2] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_y_next_reg[2]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#82 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_y_next_reg[3] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_y_next_reg[3]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#83 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_y_next_reg[4] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_y_next_reg[4]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#84 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_y_next_reg[5] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_y_next_reg[5]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#85 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_y_next_reg[6] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_y_next_reg[6]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#86 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_y_next_reg[7] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_y_next_reg[7]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#87 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_y_next_reg[8] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_y_next_reg[8]/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#88 Warning
+Non-clocked latch  
+The latch battlefront_ww2_unit/projectile_p2_y_next_reg[9] cannot be properly analyzed as its control pin battlefront_ww2_unit/projectile_p2_y_next_reg[9]/G is not reached by a timing clock
 Related violations: <none>
 
 TIMING-56#1 Warning
@@ -119,7 +524,7 @@ Related violations: <none>
 
 LATCH-1#1 Advisory
 Existing latches in the design  
-There are 7 latches found in the design. Inferred latches are often the result of HDL coding mistakes, such as incomplete if or case statements.
+There are 88 latches found in the design. Inferred latches are often the result of HDL coding mistakes, such as incomplete if or case statements.
 Related violations: <none>
 
 

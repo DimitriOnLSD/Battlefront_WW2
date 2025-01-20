@@ -7,10 +7,8 @@ entity battlefront_ww2 is
 		clk, reset       : in std_logic;
 		pixel_x, pixel_y : in std_logic_vector(9 downto 0);
 		video_on         : in std_logic;
-		btn              : in std_logic_vector(3 downto 0);
-		sw               : in std_logic_vector(3 downto 0);
+		btn_key          : in std_logic_vector(7 downto 0);
 		graph_rgb        : out std_logic_vector(11 downto 0);
-		led              : out std_logic_vector(15 downto 0);
         p1_hit_p2_out    : out std_logic;
         p2_hit_p1_out    : out std_logic;
         gra_still        : in std_logic;
@@ -80,13 +78,12 @@ architecture arch of battlefront_ww2 is
 	constant CHAR_SIZE_Y             : integer := 32;
 	constant CHAR_V_X                : integer := 2;
 	constant CHAR_V_Y                : integer := 2;
-	constant FEET_POSITION           : integer := 20;
-	constant HEAD_POSITION           : integer := 18;
+	constant SIDE_PROFILE            : integer := 20;
 	constant HEAD_TO_BARREL_DISTANCE : integer := 11;
 	----------------------------------------------
 	constant PROJECTILE_SIZE_X : integer := 4;  -- changed from 5 to 4
 	constant PROJECTILE_SIZE_Y : integer := 2;  -- changed from 3 to 2
-	constant PROJECTILE_V_X    : integer := 10; -- changed from 5 to 10
+	constant PROJECTILE_V_X    : integer := 4;  -- changed from 5 to 10
     ----------------------------------------------
 	constant HEART_SIZE_X            : integer := 16;
 	constant HEART_SIZE_Y            : integer := 16;
@@ -270,15 +267,19 @@ architecture arch of battlefront_ww2 is
     signal p2_x_reg, p2_x_next : unsigned(9 downto 0) := to_unsigned(player_two_spawn_x, 10);
     signal p2_y_reg, p2_y_next : unsigned(9 downto 0) := to_unsigned(player_two_spawn_y, 10);
     ----------------------------------------------
-    signal projectile_p1_x_reg  : unsigned(9 downto 0) := to_unsigned(0, 10);
-    signal projectile_p1_y_reg  : unsigned(9 downto 0) := to_unsigned(0, 10);
-    signal projectile_p1_x_next : unsigned(9 downto 0) := to_unsigned(0, 10);
-    signal projectile_p1_y_next : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p1_active_reg  : std_logic := '0';
+    signal projectile_p1_active_next : std_logic := '0';
+    signal projectile_p1_x_reg       : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p1_y_reg       : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p1_x_next      : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p1_y_next      : unsigned(9 downto 0) := to_unsigned(0, 10);
     ----------------------------------------------
-    signal projectile_p2_x_reg  : unsigned(9 downto 0) := to_unsigned(0, 10);
-    signal projectile_p2_y_reg  : unsigned(9 downto 0) := to_unsigned(0, 10);
-    signal projectile_p2_x_next : unsigned(9 downto 0) := to_unsigned(0, 10);
-    signal projectile_p2_y_next : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p2_active_reg  : std_logic := '0';
+    signal projectile_p2_active_next : std_logic := '0';
+    signal projectile_p2_x_reg       : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p2_y_reg       : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p2_x_next      : unsigned(9 downto 0) := to_unsigned(0, 10);
+    signal projectile_p2_y_next      : unsigned(9 downto 0) := to_unsigned(0, 10);
     ----------------------------------------------
     -- COLLISION & HIT SIGNALS
     ----------------------------------------------
@@ -329,6 +330,8 @@ begin
             projectile_p1_y_reg <= to_unsigned(0, 10);
             projectile_p2_x_reg <= to_unsigned(0, 10);
             projectile_p2_y_reg <= to_unsigned(0, 10);
+            projectile_p1_active_reg <= '0';
+            projectile_p2_active_reg <= '0';
 		elsif (clk'EVENT and clk = '1') then
 			p1_x_reg <= p1_x_next;
 			p1_y_reg <= p1_y_next;
@@ -338,6 +341,8 @@ begin
             projectile_p1_y_reg <= projectile_p1_y_next;
             projectile_p2_x_reg <= projectile_p2_x_next;            
             projectile_p2_y_reg <= projectile_p2_y_next;
+            projectile_p1_active_reg <= projectile_p1_active_next;
+            projectile_p2_active_reg <= projectile_p2_active_next;
             player_one_lives_reg <= player_one_lives_next;
             player_two_lives_reg <= player_two_lives_next;
 		end if;
@@ -349,122 +354,145 @@ begin
 	-- PLAYER ONE MOVEMENT & SHOOTING LOGIC
 	----------------------------------------------
     process (
-        refr_tick, btn, 
+        gra_still,
+        refr_tick, btn_key,
         p1_x_reg, p1_y_reg, 
         projectile_p1_x_reg, projectile_p1_y_reg, 
-        p1_collision_margin_top, p1_collision_margin_bottom, 
-        p1_collision_margin_left, p1_collision_margin_right, 
-        p1_collision_top, p1_collision_bottom, p1_hit_border, p1_hit_p2)
+        projectile_p1_active_reg,
+        p1_collision_margin_top, p1_collision_margin_bottom, p1_collision_margin_left, p1_collision_margin_right, 
+        p1_collision_top, p1_collision_bottom, p1_collision_left_side, p1_collision_right_side,
+        p1_hit_border, p1_hit_p2)
     begin
-        -- Default assignments to avoid latches
-        p1_x_next <= p1_x_reg;
-        p1_y_next <= p1_y_reg;
-        projectile_p1_x_next <= projectile_p1_x_reg;
-        projectile_p1_y_next <= projectile_p1_y_reg;
 
-        if refr_tick = '1' then
+        if gra_still = '0' then 
 
-            -- Horizontal movement
-            if btn(0) = '1' then -- Move left
-                if p1_collision_margin_left = '0' then
-                    p1_x_next <= p1_x_reg - CHAR_V_X;
+            -- Default assignments to avoid latches
+            p1_x_next <= p1_x_reg;
+            p1_y_next <= p1_y_reg;
+            projectile_p1_active_next <= projectile_p1_active_reg;
+            projectile_p1_x_next <= projectile_p1_x_reg;
+            projectile_p1_y_next <= projectile_p1_y_reg;
+
+            if refr_tick = '1' then
+
+                -- Horizontal movement
+                if btn_key(0) = '1' then -- Move left
+                    if p1_collision_margin_left = '0' and p1_collision_left_side = '0' then
+                        p1_x_next <= p1_x_reg - CHAR_V_X;
+                    end if;
+                elsif btn_key(1) = '1' then -- Move right
+                    if p1_collision_margin_right = '0' and p1_collision_right_side = '0' then
+                        p1_x_next <= p1_x_reg + CHAR_V_X;
+                    end if;
                 end if;
-            elsif btn(1) = '1' then -- Move right
-                if p1_collision_margin_right = '0' then
-                    p1_x_next <= p1_x_reg + CHAR_V_X;
+
+                -- Vertical movement
+                if btn_key(2) = '1' then -- Move up
+                    if (p1_collision_margin_top = '0') and (p1_collision_top = '0') then
+                        p1_y_next <= p1_y_reg - CHAR_V_Y;
+                    end if;
+                else -- Fall down
+                    if (p1_collision_margin_bottom = '0') and (p1_collision_bottom = '0') then
+                        p1_y_next <= p1_y_reg + CHAR_V_Y;
+                    elsif (p1_collision_top = '1') then
+                        p1_y_next <= p1_y_reg + CHAR_V_Y; -- Override upward collision
+                    end if;
                 end if;
+
+                -- Shooting and projectile logic
+                if btn_key(3) = '1' then
+                    if projectile_p1_active_reg = '0' then
+                        projectile_p1_active_next <= '1';
+                        projectile_p1_x_next <= p1_x_reg + CHAR_SIZE_X - PROJECTILE_SIZE_X;
+                        projectile_p1_y_next <= p1_y_reg + HEAD_TO_BARREL_DISTANCE;
+                    end if;
+                end if;
+
+                if projectile_p1_active_reg = '1' then
+                    if p1_hit_border = '1' or p1_hit_p2 = '1' then
+                        projectile_p1_active_next <= '0';
+                        projectile_p1_x_next <= to_unsigned(0, 10);
+                        projectile_p1_y_next <= to_unsigned(0, 10);
+                    else
+                        projectile_p1_x_next <= projectile_p1_x_reg + PROJECTILE_V_X;
+                        projectile_p1_y_next <= projectile_p1_y_reg;
+                    end if;
+                end if;
+
             end if;
 
-            -- Vertical movement
-            if btn(2) = '1' then -- Move up
-                if (p1_collision_margin_top = '0') and (p1_collision_top = '0') then
-                    p1_y_next <= p1_y_reg - CHAR_V_Y;
-                end if;
-            else -- Fall down
-                if (p1_collision_margin_bottom = '0') and (p1_collision_bottom = '0') then
-                    p1_y_next <= p1_y_reg + CHAR_V_Y;
-                elsif (p1_collision_top = '1') then
-                    p1_y_next <= p1_y_reg + CHAR_V_Y; -- Override upward collision
-                end if;
-            end if;
+        end if; 
 
-            -- Shooting logic
-            if btn(3) = '1' then
-                -- Fire projectile from player's position
-                projectile_p1_x_next <= p1_x_reg + CHAR_SIZE_X - PROJECTILE_SIZE_X;
-                projectile_p1_y_next <= p1_y_reg + HEAD_TO_BARREL_DISTANCE;
-            else
-                -- Update projectile movement
-                if (p1_hit_border = '0') and (p1_hit_p2 = '0') then
-                    projectile_p1_x_next <= projectile_p1_x_reg + PROJECTILE_V_X;
-                    projectile_p1_y_next <= projectile_p1_y_reg;
-                else
-                    -- Reset projectile position after hitting the border or player 2
-                    projectile_p1_x_next <= to_unsigned(0, 10);
-                    projectile_p1_y_next <= to_unsigned(0, 10);
-                end if;
-            end if;
-
-        end if;
     end process;
     ----------------------------------------------
 	-- PLAYER TWO MOVEMENT & SHOOTING LOGIC
 	----------------------------------------------
     process (
-        refr_tick, sw, 
+        gra_still,
+        refr_tick, btn_key, 
         p2_x_reg, p2_y_reg, 
-        projectile_p2_x_reg, projectile_p2_y_reg, 
-        p2_collision_margin_top, p2_collision_margin_bottom, 
-        p2_collision_margin_left, p2_collision_margin_right, 
-        p2_collision_top, p2_collision_bottom, p2_hit_border, p2_hit_p1)
+        projectile_p2_x_reg, projectile_p2_y_reg,
+        projectile_p2_active_reg,
+        p2_collision_margin_top, p2_collision_margin_bottom, p2_collision_margin_left, p2_collision_margin_right, 
+        p2_collision_top, p2_collision_bottom, p2_collision_left_side, p2_collision_right_side,
+        p2_hit_border, p2_hit_p1)
     begin
-        -- Default assignments to avoid latches
-        p2_x_next <= p2_x_reg;
-        p2_y_next <= p2_y_reg;
-        projectile_p2_x_next <= projectile_p2_x_reg;
-        projectile_p2_y_next <= projectile_p2_y_reg;
 
-        if refr_tick = '1' then
+        if gra_still = '0' then
 
-            -- Horizontal movement
-            if sw(0) = '1' then -- Move left
-                if p2_collision_margin_left = '0' then
-                    p2_x_next <= p2_x_reg - CHAR_V_X;
-                end if;
-            elsif sw(1) = '1' then -- Move right
-                if p2_collision_margin_right = '0' then
-                    p2_x_next <= p2_x_reg + CHAR_V_X;
-                end if;
-            end if;
+            -- Default assignments to avoid latches
+            p2_x_next <= p2_x_reg;
+            p2_y_next <= p2_y_reg;
+            projectile_p2_active_next <= projectile_p2_active_reg;
+            projectile_p2_x_next <= projectile_p2_x_reg;
+            projectile_p2_y_next <= projectile_p2_y_reg;
 
-            -- Vertical movement
-            if sw(2) = '1' then -- Move up
-                if (p2_collision_margin_top = '0') and (p2_collision_top = '0') then
-                    p2_y_next <= p2_y_reg - CHAR_V_Y;
-                end if;
-            else -- Fall down
-                if (p2_collision_margin_bottom = '0') and (p2_collision_bottom = '0') then
-                    p2_y_next <= p2_y_reg + CHAR_V_Y;
-                elsif (p2_collision_top = '1') then
-                    p2_y_next <= p2_y_reg + CHAR_V_Y; -- Override upward collision
-                end if;
-            end if;
+            if refr_tick = '1' then
 
-            -- Shooting logic
-            if sw(3) = '1' then
-                -- Fire projectile from player 2's position
-                projectile_p2_x_next <= p2_x_reg;
-                projectile_p2_y_next <= p2_y_reg + HEAD_TO_BARREL_DISTANCE;
-            else
-                -- Update projectile movement
-                if (p2_hit_border = '0') and (p2_hit_p1 = '0') then
-                    projectile_p2_x_next <= projectile_p2_x_reg - PROJECTILE_V_X;
-                    projectile_p2_y_next <= projectile_p2_y_reg;
-                else
-                    -- Reset projectile position after hitting the border or player 1
-                    projectile_p2_x_next <= to_unsigned(0, 10);
-                    projectile_p2_y_next <= to_unsigned(0, 10);
+                -- Horizontal movement
+                if btn_key(4) = '1' then -- Move left
+                    if p2_collision_margin_left = '0' and p2_collision_left_side = '0' then
+                        p2_x_next <= p2_x_reg - CHAR_V_X;
+                    end if;
+                elsif btn_key(5) = '1' then -- Move right
+                    if p2_collision_margin_right = '0' and p2_collision_right_side = '0' then
+                        p2_x_next <= p2_x_reg + CHAR_V_X;
+                    end if;
                 end if;
+
+                -- Vertical movement
+                if btn_key(6) = '1' then -- Move up
+                    if (p2_collision_margin_top = '0') and (p2_collision_top = '0') then
+                        p2_y_next <= p2_y_reg - CHAR_V_Y;
+                    end if;
+                else -- Fall down
+                    if (p2_collision_margin_bottom = '0') and (p2_collision_bottom = '0') then
+                        p2_y_next <= p2_y_reg + CHAR_V_Y;
+                    elsif (p2_collision_top = '1') then
+                        p2_y_next <= p2_y_reg + CHAR_V_Y; -- Override upward collision
+                    end if;
+                end if;
+
+                -- Shooting and projectile logic
+                if btn_key(7) = '1' then
+                    if projectile_p2_active_reg = '0' then
+                        projectile_p2_active_next <= '1';
+                        projectile_p2_x_next <= p2_x_reg;
+                        projectile_p2_y_next <= p2_y_reg + HEAD_TO_BARREL_DISTANCE;
+                    end if;
+                end if;
+
+                if projectile_p2_active_reg = '1' then
+                    if p2_hit_border = '1' or p2_hit_p1 = '1' then
+                        projectile_p2_active_next <= '0';
+                        projectile_p2_x_next <= to_unsigned(0, 10);
+                        projectile_p2_y_next <= to_unsigned(0, 10);
+                    else
+                        projectile_p2_x_next <= projectile_p2_x_reg - PROJECTILE_V_X;
+                        projectile_p2_y_next <= projectile_p2_y_reg;
+                    end if;
+                end if;
+
             end if;
 
         end if;
@@ -522,67 +550,123 @@ begin
         end if;
 
         -- Player 1 collision with feet on platforms
-        -- Each line represents a platform
         if 
-        ((p1_x_reg + FEET_POSITION > L1P1_X1) and (p1_x_reg < L1P1_X2) and (p1_y_reg + CHAR_SIZE_Y >= L1_Y) and (p1_y_reg < L1_Y + LEVEL_THICKNESS)) or
-        ((p1_x_reg + FEET_POSITION > L1P2_X1) and (p1_x_reg < L1P2_X2) and (p1_y_reg + CHAR_SIZE_Y >= L1_Y) and (p1_y_reg < L1_Y + LEVEL_THICKNESS)) or
-        ((p1_x_reg + FEET_POSITION > L2P1_X1) and (p1_x_reg < L2P1_X2) and (p1_y_reg + CHAR_SIZE_Y >= L2_Y) and (p1_y_reg < L2_Y + LEVEL_THICKNESS)) or
-        ((p1_x_reg + FEET_POSITION > L2P2_X1) and (p1_x_reg < L2P2_X2) and (p1_y_reg + CHAR_SIZE_Y >= L2_Y) and (p1_y_reg < L2_Y + LEVEL_THICKNESS)) or
-        ((p1_x_reg + FEET_POSITION > L2P3_X1) and (p1_x_reg < L2P3_X2) and (p1_y_reg + CHAR_SIZE_Y >= L2_Y) and (p1_y_reg < L2_Y + LEVEL_THICKNESS)) or
-        ((p1_x_reg + FEET_POSITION > L3P1_X1) and (p1_x_reg < L3P1_X2) and (p1_y_reg + CHAR_SIZE_Y >= L3_Y) and (p1_y_reg < L3_Y + LEVEL_THICKNESS)) or
-        ((p1_x_reg + FEET_POSITION > L3P2_X1) and (p1_x_reg < L3P2_X2) and (p1_y_reg + CHAR_SIZE_Y >= L3_Y) and (p1_y_reg < L3_Y + LEVEL_THICKNESS)) or
-        ((p1_x_reg + FEET_POSITION > L3P3_X1) and (p1_x_reg < L3P3_X2) and (p1_y_reg + CHAR_SIZE_Y >= L3_Y) and (p1_y_reg < L3_Y + LEVEL_THICKNESS)) or
-        ((p1_x_reg + FEET_POSITION > L4P1_X1) and (p1_x_reg < L4P1_X2) and (p1_y_reg + CHAR_SIZE_Y >= L4_Y) and (p1_y_reg < L4_Y + LEVEL_THICKNESS)) or
-        ((p1_x_reg + FEET_POSITION > L4P2_X1) and (p1_x_reg < L4P2_X2) and (p1_y_reg + CHAR_SIZE_Y >= L4_Y) and (p1_y_reg < L4_Y + LEVEL_THICKNESS)) then
+        ((p1_x_reg + SIDE_PROFILE > L1P1_X1) and (p1_x_reg < L1P1_X2) and (p1_y_reg + CHAR_SIZE_Y >= L1_Y) and (p1_y_reg < L1_Y + LEVEL_THICKNESS)) or
+        ((p1_x_reg + SIDE_PROFILE > L1P2_X1) and (p1_x_reg < L1P2_X2) and (p1_y_reg + CHAR_SIZE_Y >= L1_Y) and (p1_y_reg < L1_Y + LEVEL_THICKNESS)) or
+        ((p1_x_reg + SIDE_PROFILE > L2P1_X1) and (p1_x_reg < L2P1_X2) and (p1_y_reg + CHAR_SIZE_Y >= L2_Y) and (p1_y_reg < L2_Y + LEVEL_THICKNESS)) or
+        ((p1_x_reg + SIDE_PROFILE > L2P2_X1) and (p1_x_reg < L2P2_X2) and (p1_y_reg + CHAR_SIZE_Y >= L2_Y) and (p1_y_reg < L2_Y + LEVEL_THICKNESS)) or
+        ((p1_x_reg + SIDE_PROFILE > L2P3_X1) and (p1_x_reg < L2P3_X2) and (p1_y_reg + CHAR_SIZE_Y >= L2_Y) and (p1_y_reg < L2_Y + LEVEL_THICKNESS)) or
+        ((p1_x_reg + SIDE_PROFILE > L3P1_X1) and (p1_x_reg < L3P1_X2) and (p1_y_reg + CHAR_SIZE_Y >= L3_Y) and (p1_y_reg < L3_Y + LEVEL_THICKNESS)) or
+        ((p1_x_reg + SIDE_PROFILE > L3P2_X1) and (p1_x_reg < L3P2_X2) and (p1_y_reg + CHAR_SIZE_Y >= L3_Y) and (p1_y_reg < L3_Y + LEVEL_THICKNESS)) or
+        ((p1_x_reg + SIDE_PROFILE > L3P3_X1) and (p1_x_reg < L3P3_X2) and (p1_y_reg + CHAR_SIZE_Y >= L3_Y) and (p1_y_reg < L3_Y + LEVEL_THICKNESS)) or
+        ((p1_x_reg + SIDE_PROFILE > L4P1_X1) and (p1_x_reg < L4P1_X2) and (p1_y_reg + CHAR_SIZE_Y >= L4_Y) and (p1_y_reg < L4_Y + LEVEL_THICKNESS)) or
+        ((p1_x_reg + SIDE_PROFILE > L4P2_X1) and (p1_x_reg < L4P2_X2) and (p1_y_reg + CHAR_SIZE_Y >= L4_Y) and (p1_y_reg < L4_Y + LEVEL_THICKNESS)) then
             p1_collision_bottom <= '1';
         end if;
 
         -- Player 1 collision with head on platforms
-        -- Each line represents a platform
         if
-        ((p1_x_reg + HEAD_POSITION > L1P1_X1) and (p1_x_reg < L1P1_X2) and (p1_y_reg <= L1_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L1_Y)) or
-        ((p1_x_reg + HEAD_POSITION > L1P2_X1) and (p1_x_reg < L1P2_X2) and (p1_y_reg <= L1_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L1_Y)) or
-        ((p1_x_reg + HEAD_POSITION > L2P1_X1) and (p1_x_reg < L2P1_X2) and (p1_y_reg <= L2_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L2_Y)) or
-        ((p1_x_reg + HEAD_POSITION > L2P2_X1) and (p1_x_reg < L2P2_X2) and (p1_y_reg <= L2_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L2_Y)) or
-        ((p1_x_reg + HEAD_POSITION > L2P3_X1) and (p1_x_reg < L2P3_X2) and (p1_y_reg <= L2_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L2_Y)) or
-        ((p1_x_reg + HEAD_POSITION > L3P1_X1) and (p1_x_reg < L3P1_X2) and (p1_y_reg <= L3_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L3_Y)) or
-        ((p1_x_reg + HEAD_POSITION > L3P2_X1) and (p1_x_reg < L3P2_X2) and (p1_y_reg <= L3_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L3_Y)) or
-        ((p1_x_reg + HEAD_POSITION > L3P3_X1) and (p1_x_reg < L3P3_X2) and (p1_y_reg <= L3_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L3_Y)) or
-        ((p1_x_reg + HEAD_POSITION > L4P1_X1) and (p1_x_reg < L4P1_X2) and (p1_y_reg <= L4_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L4_Y)) or
-        ((p1_x_reg + HEAD_POSITION > L4P2_X1) and (p1_x_reg < L4P2_X2) and (p1_y_reg <= L4_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L4_Y)) then
+        ((p1_x_reg + SIDE_PROFILE > L1P1_X1) and (p1_x_reg < L1P1_X2) and (p1_y_reg <= L1_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L1_Y)) or
+        ((p1_x_reg + SIDE_PROFILE > L1P2_X1) and (p1_x_reg < L1P2_X2) and (p1_y_reg <= L1_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L1_Y)) or
+        ((p1_x_reg + SIDE_PROFILE > L2P1_X1) and (p1_x_reg < L2P1_X2) and (p1_y_reg <= L2_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L2_Y)) or
+        ((p1_x_reg + SIDE_PROFILE > L2P2_X1) and (p1_x_reg < L2P2_X2) and (p1_y_reg <= L2_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L2_Y)) or
+        ((p1_x_reg + SIDE_PROFILE > L2P3_X1) and (p1_x_reg < L2P3_X2) and (p1_y_reg <= L2_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L2_Y)) or
+        ((p1_x_reg + SIDE_PROFILE > L3P1_X1) and (p1_x_reg < L3P1_X2) and (p1_y_reg <= L3_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L3_Y)) or
+        ((p1_x_reg + SIDE_PROFILE > L3P2_X1) and (p1_x_reg < L3P2_X2) and (p1_y_reg <= L3_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L3_Y)) or
+        ((p1_x_reg + SIDE_PROFILE > L3P3_X1) and (p1_x_reg < L3P3_X2) and (p1_y_reg <= L3_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L3_Y)) or
+        ((p1_x_reg + SIDE_PROFILE > L4P1_X1) and (p1_x_reg < L4P1_X2) and (p1_y_reg <= L4_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L4_Y)) or
+        ((p1_x_reg + SIDE_PROFILE > L4P2_X1) and (p1_x_reg < L4P2_X2) and (p1_y_reg <= L4_Y + LEVEL_THICKNESS) and (p1_y_reg + CHAR_SIZE_Y > L4_Y)) then
             p1_collision_top <= '1';
         end if;
 
-        -- Player 2 collision with feet on platforms
-        -- Each line represents a platform
-        if 
-        ((p2_x_reg + FEET_POSITION > L1P1_X1) and (p2_x_reg < L1P1_X2) and (p2_y_reg + CHAR_SIZE_Y >= L1_Y) and (p2_y_reg < L1_Y + LEVEL_THICKNESS)) or
-        ((p2_x_reg + FEET_POSITION > L1P2_X1) and (p2_x_reg < L1P2_X2) and (p2_y_reg + CHAR_SIZE_Y >= L1_Y) and (p2_y_reg < L1_Y + LEVEL_THICKNESS)) or
-        ((p2_x_reg + FEET_POSITION > L2P1_X1) and (p2_x_reg < L2P1_X2) and (p2_y_reg + CHAR_SIZE_Y >= L2_Y) and (p2_y_reg < L2_Y + LEVEL_THICKNESS)) or
-        ((p2_x_reg + FEET_POSITION > L2P2_X1) and (p2_x_reg < L2P2_X2) and (p2_y_reg + CHAR_SIZE_Y >= L2_Y) and (p2_y_reg < L2_Y + LEVEL_THICKNESS)) or
-        ((p2_x_reg + FEET_POSITION > L2P3_X1) and (p2_x_reg < L2P3_X2) and (p2_y_reg + CHAR_SIZE_Y >= L2_Y) and (p2_y_reg < L2_Y + LEVEL_THICKNESS)) or
-        ((p2_x_reg + FEET_POSITION > L3P1_X1) and (p2_x_reg < L3P1_X2) and (p2_y_reg + CHAR_SIZE_Y >= L3_Y) and (p2_y_reg < L3_Y + LEVEL_THICKNESS)) or
-        ((p2_x_reg + FEET_POSITION > L3P2_X1) and (p2_x_reg < L3P2_X2) and (p2_y_reg + CHAR_SIZE_Y >= L3_Y) and (p2_y_reg < L3_Y + LEVEL_THICKNESS)) or
-        ((p2_x_reg + FEET_POSITION > L3P3_X1) and (p2_x_reg < L3P3_X2) and (p2_y_reg + CHAR_SIZE_Y >= L3_Y) and (p2_y_reg < L3_Y + LEVEL_THICKNESS)) or
-        ((p2_x_reg + FEET_POSITION > L4P1_X1) and (p2_x_reg < L4P1_X2) and (p2_y_reg + CHAR_SIZE_Y >= L4_Y) and (p2_y_reg < L4_Y + LEVEL_THICKNESS)) or
-        ((p2_x_reg + FEET_POSITION > L4P2_X1) and (p2_x_reg < L4P2_X2) and (p2_y_reg + CHAR_SIZE_Y >= L4_Y) and (p2_y_reg < L4_Y + LEVEL_THICKNESS)) then
-            p2_collision_bottom <= '1';
+        -- Player 1 collision with it's right side on platforms
+        if
+        (p1_x_reg + SIDE_PROFILE = L1P1_X1 and p1_y_reg + CHAR_SIZE_Y >= L1_Y and p1_y_reg <= L1_Y + LEVEL_THICKNESS) or
+        (p1_x_reg + SIDE_PROFILE = L1P2_X1 and p1_y_reg + CHAR_SIZE_Y >= L1_Y and p1_y_reg <= L1_Y + LEVEL_THICKNESS) or
+        (p1_x_reg + SIDE_PROFILE = L2P1_X1 and p1_y_reg + CHAR_SIZE_Y >= L2_Y and p1_y_reg <= L2_Y + LEVEL_THICKNESS) or
+        (p1_x_reg + SIDE_PROFILE = L2P2_X1 and p1_y_reg + CHAR_SIZE_Y >= L2_Y and p1_y_reg <= L2_Y + LEVEL_THICKNESS) or
+        (p1_x_reg + SIDE_PROFILE = L2P3_X1 and p1_y_reg + CHAR_SIZE_Y >= L2_Y and p1_y_reg <= L2_Y + LEVEL_THICKNESS) or
+        (p1_x_reg + SIDE_PROFILE = L3P1_X1 and p1_y_reg + CHAR_SIZE_Y >= L3_Y and p1_y_reg <= L3_Y + LEVEL_THICKNESS) or
+        (p1_x_reg + SIDE_PROFILE = L3P1_X1 and p1_y_reg + CHAR_SIZE_Y >= L3_Y and p1_y_reg <= L3_Y + LEVEL_THICKNESS) or
+        (p1_x_reg + SIDE_PROFILE = L3P3_X1 and p1_y_reg + CHAR_SIZE_Y >= L3_Y and p1_y_reg <= L3_Y + LEVEL_THICKNESS) or
+        (p1_x_reg + SIDE_PROFILE = L4P1_X1 and p1_y_reg + CHAR_SIZE_Y >= L4_Y and p1_y_reg <= L4_Y + LEVEL_THICKNESS) or
+        (p1_x_reg + SIDE_PROFILE = L4P2_X1 and p1_y_reg + CHAR_SIZE_Y >= L4_Y and p1_y_reg <= L4_Y + LEVEL_THICKNESS) then
+            p1_collision_right_side <= '1'; 
         end if;
 
-        -- Player 2 collision with head on platforms
-        -- Each line represents a platform
+        -- Player 1 collision with it's left side on platforms
         if
-        ((p2_x_reg + HEAD_POSITION > L1P1_X1) and (p2_x_reg < L1P1_X2) and (p2_y_reg <= L1_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L1_Y)) or
-        ((p2_x_reg + HEAD_POSITION > L1P2_X1) and (p2_x_reg < L1P2_X2) and (p2_y_reg <= L1_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L1_Y)) or
-        ((p2_x_reg + HEAD_POSITION > L2P1_X1) and (p2_x_reg < L2P1_X2) and (p2_y_reg <= L2_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L2_Y)) or
-        ((p2_x_reg + HEAD_POSITION > L2P2_X1) and (p2_x_reg < L2P2_X2) and (p2_y_reg <= L2_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L2_Y)) or
-        ((p2_x_reg + HEAD_POSITION > L2P3_X1) and (p2_x_reg < L2P3_X2) and (p2_y_reg <= L2_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L2_Y)) or
-        ((p2_x_reg + HEAD_POSITION > L3P1_X1) and (p2_x_reg < L3P1_X2) and (p2_y_reg <= L3_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L3_Y)) or
-        ((p2_x_reg + HEAD_POSITION > L3P2_X1) and (p2_x_reg < L3P2_X2) and (p2_y_reg <= L3_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L3_Y)) or
-        ((p2_x_reg + HEAD_POSITION > L3P3_X1) and (p2_x_reg < L3P3_X2) and (p2_y_reg <= L3_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L3_Y)) or
-        ((p2_x_reg + HEAD_POSITION > L4P1_X1) and (p2_x_reg < L4P1_X2) and (p2_y_reg <= L4_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L4_Y)) or
-        ((p2_x_reg + HEAD_POSITION > L4P2_X1) and (p2_x_reg < L4P2_X2) and (p2_y_reg <= L4_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L4_Y)) then
+        (p1_x_reg = L1P1_X2 and p1_y_reg + CHAR_SIZE_Y >= L1_Y and p1_y_reg <= L1_Y + LEVEL_THICKNESS) or
+        (p1_x_reg = L1P2_X2 and p1_y_reg + CHAR_SIZE_Y >= L1_Y and p1_y_reg <= L1_Y + LEVEL_THICKNESS) or
+        (p1_x_reg = L2P1_X2 and p1_y_reg + CHAR_SIZE_Y >= L2_Y and p1_y_reg <= L2_Y + LEVEL_THICKNESS) or
+        (p1_x_reg = L2P2_X2 and p1_y_reg + CHAR_SIZE_Y >= L2_Y and p1_y_reg <= L2_Y + LEVEL_THICKNESS) or
+        (p1_x_reg = L2P3_X2 and p1_y_reg + CHAR_SIZE_Y >= L2_Y and p1_y_reg <= L2_Y + LEVEL_THICKNESS) or
+        (p1_x_reg = L3P1_X2 and p1_y_reg + CHAR_SIZE_Y >= L3_Y and p1_y_reg <= L3_Y + LEVEL_THICKNESS) or
+        (p1_x_reg = L3P2_X2 and p1_y_reg + CHAR_SIZE_Y >= L3_Y and p1_y_reg <= L3_Y + LEVEL_THICKNESS) or
+        (p1_x_reg = L3P3_X2 and p1_y_reg + CHAR_SIZE_Y >= L3_Y and p1_y_reg <= L3_Y + LEVEL_THICKNESS) or
+        (p1_x_reg = L4P1_X2 and p1_y_reg + CHAR_SIZE_Y >= L4_Y and p1_y_reg <= L4_Y + LEVEL_THICKNESS) or
+        (p1_x_reg = L4P2_X2 and p1_y_reg + CHAR_SIZE_Y >= L4_Y and p1_y_reg <= L4_Y + LEVEL_THICKNESS) then
+            p1_collision_left_side <= '1';
+        end if;
+
+        -- Player 2 collision with feet on platforms
+        if 
+        ((p2_x_reg + SIDE_PROFILE > L1P1_X1) and (p2_x_reg < L1P1_X2) and (p2_y_reg + CHAR_SIZE_Y >= L1_Y) and (p2_y_reg < L1_Y + LEVEL_THICKNESS)) or
+        ((p2_x_reg + SIDE_PROFILE > L1P2_X1) and (p2_x_reg < L1P2_X2) and (p2_y_reg + CHAR_SIZE_Y >= L1_Y) and (p2_y_reg < L1_Y + LEVEL_THICKNESS)) or
+        ((p2_x_reg + SIDE_PROFILE > L2P1_X1) and (p2_x_reg < L2P1_X2) and (p2_y_reg + CHAR_SIZE_Y >= L2_Y) and (p2_y_reg < L2_Y + LEVEL_THICKNESS)) or
+        ((p2_x_reg + SIDE_PROFILE > L2P2_X1) and (p2_x_reg < L2P2_X2) and (p2_y_reg + CHAR_SIZE_Y >= L2_Y) and (p2_y_reg < L2_Y + LEVEL_THICKNESS)) or
+        ((p2_x_reg + SIDE_PROFILE > L2P3_X1) and (p2_x_reg < L2P3_X2) and (p2_y_reg + CHAR_SIZE_Y >= L2_Y) and (p2_y_reg < L2_Y + LEVEL_THICKNESS)) or
+        ((p2_x_reg + SIDE_PROFILE > L3P1_X1) and (p2_x_reg < L3P1_X2) and (p2_y_reg + CHAR_SIZE_Y >= L3_Y) and (p2_y_reg < L3_Y + LEVEL_THICKNESS)) or
+        ((p2_x_reg + SIDE_PROFILE > L3P2_X1) and (p2_x_reg < L3P2_X2) and (p2_y_reg + CHAR_SIZE_Y >= L3_Y) and (p2_y_reg < L3_Y + LEVEL_THICKNESS)) or
+        ((p2_x_reg + SIDE_PROFILE > L3P3_X1) and (p2_x_reg < L3P3_X2) and (p2_y_reg + CHAR_SIZE_Y >= L3_Y) and (p2_y_reg < L3_Y + LEVEL_THICKNESS)) or
+        ((p2_x_reg + SIDE_PROFILE > L4P1_X1) and (p2_x_reg < L4P1_X2) and (p2_y_reg + CHAR_SIZE_Y >= L4_Y) and (p2_y_reg < L4_Y + LEVEL_THICKNESS)) or
+        ((p2_x_reg + SIDE_PROFILE > L4P2_X1) and (p2_x_reg < L4P2_X2) and (p2_y_reg + CHAR_SIZE_Y >= L4_Y) and (p2_y_reg < L4_Y + LEVEL_THICKNESS)) then
+            p2_collision_bottom <= '1';
+        end if;
+        
+        -- Player 2 collision with head on platforms
+        if
+        ((p2_x_reg + SIDE_PROFILE > L1P1_X1) and (p2_x_reg < L1P1_X2) and (p2_y_reg <= L1_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L1_Y)) or
+        ((p2_x_reg + SIDE_PROFILE > L1P2_X1) and (p2_x_reg < L1P2_X2) and (p2_y_reg <= L1_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L1_Y)) or
+        ((p2_x_reg + SIDE_PROFILE > L2P1_X1) and (p2_x_reg < L2P1_X2) and (p2_y_reg <= L2_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L2_Y)) or
+        ((p2_x_reg + SIDE_PROFILE > L2P2_X1) and (p2_x_reg < L2P2_X2) and (p2_y_reg <= L2_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L2_Y)) or
+        ((p2_x_reg + SIDE_PROFILE > L2P3_X1) and (p2_x_reg < L2P3_X2) and (p2_y_reg <= L2_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L2_Y)) or
+        ((p2_x_reg + SIDE_PROFILE > L3P1_X1) and (p2_x_reg < L3P1_X2) and (p2_y_reg <= L3_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L3_Y)) or
+        ((p2_x_reg + SIDE_PROFILE > L3P2_X1) and (p2_x_reg < L3P2_X2) and (p2_y_reg <= L3_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L3_Y)) or
+        ((p2_x_reg + SIDE_PROFILE > L3P3_X1) and (p2_x_reg < L3P3_X2) and (p2_y_reg <= L3_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L3_Y)) or
+        ((p2_x_reg + SIDE_PROFILE > L4P1_X1) and (p2_x_reg < L4P1_X2) and (p2_y_reg <= L4_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L4_Y)) or
+        ((p2_x_reg + SIDE_PROFILE > L4P2_X1) and (p2_x_reg < L4P2_X2) and (p2_y_reg <= L4_Y + LEVEL_THICKNESS) and (p2_y_reg + CHAR_SIZE_Y > L4_Y)) then
             p2_collision_top <= '1';
+        end if;
+
+        -- Player 2 collision with it's right side on platforms
+        if
+        (p2_x_reg + SIDE_PROFILE = L1P1_X1 and p2_y_reg + CHAR_SIZE_Y >= L1_Y and p2_y_reg <= L1_Y + LEVEL_THICKNESS) or
+        (p2_x_reg + SIDE_PROFILE = L1P2_X1 and p2_y_reg + CHAR_SIZE_Y >= L1_Y and p2_y_reg <= L1_Y + LEVEL_THICKNESS) or
+        (p2_x_reg + SIDE_PROFILE = L2P1_X1 and p2_y_reg + CHAR_SIZE_Y >= L2_Y and p2_y_reg <= L2_Y + LEVEL_THICKNESS) or
+        (p2_x_reg + SIDE_PROFILE = L2P2_X1 and p2_y_reg + CHAR_SIZE_Y >= L2_Y and p2_y_reg <= L2_Y + LEVEL_THICKNESS) or
+        (p2_x_reg + SIDE_PROFILE = L2P3_X1 and p2_y_reg + CHAR_SIZE_Y >= L2_Y and p2_y_reg <= L2_Y + LEVEL_THICKNESS) or
+        (p2_x_reg + SIDE_PROFILE = L3P1_X1 and p2_y_reg + CHAR_SIZE_Y >= L3_Y and p2_y_reg <= L3_Y + LEVEL_THICKNESS) or
+        (p2_x_reg + SIDE_PROFILE = L3P1_X1 and p2_y_reg + CHAR_SIZE_Y >= L3_Y and p2_y_reg <= L3_Y + LEVEL_THICKNESS) or
+        (p2_x_reg + SIDE_PROFILE = L3P3_X1 and p2_y_reg + CHAR_SIZE_Y >= L3_Y and p2_y_reg <= L3_Y + LEVEL_THICKNESS) or
+        (p2_x_reg + SIDE_PROFILE = L4P1_X1 and p2_y_reg + CHAR_SIZE_Y >= L4_Y and p2_y_reg <= L4_Y + LEVEL_THICKNESS) or
+        (p2_x_reg + SIDE_PROFILE = L4P2_X1 and p2_y_reg + CHAR_SIZE_Y >= L4_Y and p2_y_reg <= L4_Y + LEVEL_THICKNESS) then
+            p2_collision_right_side <= '1'; 
+        end if;
+
+        -- Player 2 collision with it's left side on platforms
+        if
+        (p2_x_reg = L1P1_X2 and p2_y_reg + CHAR_SIZE_Y >= L1_Y and p2_y_reg <= L1_Y + LEVEL_THICKNESS) or
+        (p2_x_reg = L1P2_X2 and p2_y_reg + CHAR_SIZE_Y >= L1_Y and p2_y_reg <= L1_Y + LEVEL_THICKNESS) or
+        (p2_x_reg = L2P1_X2 and p2_y_reg + CHAR_SIZE_Y >= L2_Y and p2_y_reg <= L2_Y + LEVEL_THICKNESS) or
+        (p2_x_reg = L2P2_X2 and p2_y_reg + CHAR_SIZE_Y >= L2_Y and p2_y_reg <= L2_Y + LEVEL_THICKNESS) or
+        (p2_x_reg = L2P3_X2 and p2_y_reg + CHAR_SIZE_Y >= L2_Y and p2_y_reg <= L2_Y + LEVEL_THICKNESS) or
+        (p2_x_reg = L3P1_X2 and p2_y_reg + CHAR_SIZE_Y >= L3_Y and p2_y_reg <= L3_Y + LEVEL_THICKNESS) or
+        (p2_x_reg = L3P2_X2 and p2_y_reg + CHAR_SIZE_Y >= L3_Y and p2_y_reg <= L3_Y + LEVEL_THICKNESS) or
+        (p2_x_reg = L3P3_X2 and p2_y_reg + CHAR_SIZE_Y >= L3_Y and p2_y_reg <= L3_Y + LEVEL_THICKNESS) or
+        (p2_x_reg = L4P1_X2 and p2_y_reg + CHAR_SIZE_Y >= L4_Y and p2_y_reg <= L4_Y + LEVEL_THICKNESS) or
+        (p2_x_reg = L4P2_X2 and p2_y_reg + CHAR_SIZE_Y >= L4_Y and p2_y_reg <= L4_Y + LEVEL_THICKNESS) then
+            p2_collision_left_side <= '1';
         end if;
 
     end process;
@@ -623,16 +707,14 @@ begin
             end if;
         
             -- Player 2 hit Player 1
-            if (projectile_p2_x_reg >= p1_x_reg and projectile_p2_x_reg <= p1_x_reg + CHAR_SIZE_X and 
-                projectile_p2_y_reg >= p1_y_reg and projectile_p2_y_reg <= p1_y_reg + CHAR_SIZE_Y) then
+            if (projectile_p2_x_reg >= p1_x_reg and projectile_p2_x_reg <= p1_x_reg + CHAR_SIZE_X and projectile_p2_y_reg >= p1_y_reg and projectile_p2_y_reg <= p1_y_reg + CHAR_SIZE_Y) then
                 player_one_lives_next <= player_one_lives_reg - 1;
                 p2_hit_p1 <= '1';
                 p2_hit_p1_out <= '1';
             end if;
         
             -- Player 1 hit Player 2
-            if (projectile_p1_x_reg >= p2_x_reg and projectile_p1_x_reg <= p2_x_reg + CHAR_SIZE_X and 
-                projectile_p1_y_reg >= p2_y_reg and projectile_p1_y_reg <= p2_y_reg + CHAR_SIZE_Y) then
+            if (projectile_p1_x_reg >= p2_x_reg and projectile_p1_x_reg <= p2_x_reg + CHAR_SIZE_X and projectile_p1_y_reg >= p2_y_reg and projectile_p1_y_reg <= p2_y_reg + CHAR_SIZE_Y) then
                 player_two_lives_next <= player_two_lives_reg - 1;
                 p1_hit_p2 <= '1';
                 p1_hit_p2_out <= '1';

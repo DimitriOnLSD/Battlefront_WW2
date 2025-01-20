@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Fri Jan  3 01:22:20 2025
+| Date         : Mon Jan 20 20:42:26 2025
 | Host         : LENOVO-LOQ-15IRX9 running 64-bit major release  (build 9200)
 | Command      : report_drc -file battlefront_ww2_top_drc_routed.rpt -pb battlefront_ww2_top_drc_routed.pb -rpx battlefront_ww2_top_drc_routed.rpx
 | Design       : battlefront_ww2_top
@@ -24,39 +24,114 @@ Table of Contents
       Design limits: <entire design considered>
            Ruledeck: default
              Max checks: <unlimited>
-             Checks found: 5
-+-----------+----------+----------------------------+--------+
-| Rule      | Severity | Description                | Checks |
-+-----------+----------+----------------------------+--------+
-| PDRC-153  | Warning  | Gated clock check          | 1      |
-| REQP-1840 | Warning  | RAMB18 async control check | 4      |
-+-----------+----------+----------------------------+--------+
+             Checks found: 19
++----------+----------+----------------------------+--------+
+| Rule     | Severity | Description                | Checks |
++----------+----------+----------------------------+--------+
+| PDRC-134 | Warning  | SLICE_PairEqSame_B6B5_WARN | 4      |
+| PDRC-136 | Warning  | SLICE_PairEqSame_C6C5_WARN | 4      |
+| PDRC-138 | Warning  | SLICE_PairEqSame_D6D5_WARN | 4      |
+| PDRC-142 | Warning  | SLICE_PairEqSame_B6B5_WARN | 4      |
+| PDRC-144 | Warning  | SLICE_PairEqSame_C6C5_WARN | 1      |
+| PDRC-146 | Warning  | SLICE_PairEqSame_D6D5_WARN | 1      |
+| PDRC-153 | Warning  | Gated clock check          | 1      |
++----------+----------+----------------------------+--------+
 
 2. REPORT DETAILS
 -----------------
+PDRC-134#1 Warning
+SLICE_PairEqSame_B6B5_WARN  
+Luts B6LUT and B5LUT in use in site SLICE_X31Y25 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-134#2 Warning
+SLICE_PairEqSame_B6B5_WARN  
+Luts B6LUT and B5LUT in use in site SLICE_X36Y30 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-134#3 Warning
+SLICE_PairEqSame_B6B5_WARN  
+Luts B6LUT and B5LUT in use in site SLICE_X37Y28 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-134#4 Warning
+SLICE_PairEqSame_B6B5_WARN  
+Luts B6LUT and B5LUT in use in site SLICE_X40Y25 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-136#1 Warning
+SLICE_PairEqSame_C6C5_WARN  
+Luts C6LUT and C5LUT in use in site SLICE_X31Y25 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-136#2 Warning
+SLICE_PairEqSame_C6C5_WARN  
+Luts C6LUT and C5LUT in use in site SLICE_X36Y30 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-136#3 Warning
+SLICE_PairEqSame_C6C5_WARN  
+Luts C6LUT and C5LUT in use in site SLICE_X37Y28 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-136#4 Warning
+SLICE_PairEqSame_C6C5_WARN  
+Luts C6LUT and C5LUT in use in site SLICE_X40Y25 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-138#1 Warning
+SLICE_PairEqSame_D6D5_WARN  
+Luts D6LUT and D5LUT in use in site SLICE_X31Y25 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-138#2 Warning
+SLICE_PairEqSame_D6D5_WARN  
+Luts D6LUT and D5LUT in use in site SLICE_X36Y30 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-138#3 Warning
+SLICE_PairEqSame_D6D5_WARN  
+Luts D6LUT and D5LUT in use in site SLICE_X37Y28 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-138#4 Warning
+SLICE_PairEqSame_D6D5_WARN  
+Luts D6LUT and D5LUT in use in site SLICE_X40Y25 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-142#1 Warning
+SLICE_PairEqSame_B6B5_WARN  
+Luts B6LUT and B5LUT in use in site SLICE_X30Y27 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-142#2 Warning
+SLICE_PairEqSame_B6B5_WARN  
+Luts B6LUT and B5LUT in use in site SLICE_X30Y29 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-142#3 Warning
+SLICE_PairEqSame_B6B5_WARN  
+Luts B6LUT and B5LUT in use in site SLICE_X34Y29 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-142#4 Warning
+SLICE_PairEqSame_B6B5_WARN  
+Luts B6LUT and B5LUT in use in site SLICE_X38Y27 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-144#1 Warning
+SLICE_PairEqSame_C6C5_WARN  
+Luts C6LUT and C5LUT in use in site SLICE_X30Y27 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-146#1 Warning
+SLICE_PairEqSame_D6D5_WARN  
+Luts D6LUT and D5LUT in use in site SLICE_X30Y27 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
 PDRC-153#1 Warning
 Gated clock check  
-Net vga_sync_unit/h_count_reg_reg[5]_1[0] is a gated clock net sourced by a combinational pin vga_sync_unit/char_addr_reg[6]_i_2/O, cell vga_sync_unit/char_addr_reg[6]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
-Related violations: <none>
-
-REQP-1840#1 Warning
-RAMB18 async control check  
-The RAMB18E1 battlefront_ww2_text_unit/font_unit/addr_reg_reg has an input control pin battlefront_ww2_text_unit/font_unit/addr_reg_reg/ADDRARDADDR[3] (net: battlefront_ww2_text_unit/font_unit/ADDRARDADDR[0]) which is driven by a register (vga_sync_unit/v_count_reg_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
-Related violations: <none>
-
-REQP-1840#2 Warning
-RAMB18 async control check  
-The RAMB18E1 battlefront_ww2_text_unit/font_unit/addr_reg_reg has an input control pin battlefront_ww2_text_unit/font_unit/addr_reg_reg/ADDRARDADDR[4] (net: battlefront_ww2_text_unit/font_unit/ADDRARDADDR[1]) which is driven by a register (vga_sync_unit/v_count_reg_reg[2]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
-Related violations: <none>
-
-REQP-1840#3 Warning
-RAMB18 async control check  
-The RAMB18E1 battlefront_ww2_text_unit/font_unit/addr_reg_reg has an input control pin battlefront_ww2_text_unit/font_unit/addr_reg_reg/ADDRARDADDR[5] (net: battlefront_ww2_text_unit/font_unit/ADDRARDADDR[2]) which is driven by a register (vga_sync_unit/v_count_reg_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
-Related violations: <none>
-
-REQP-1840#4 Warning
-RAMB18 async control check  
-The RAMB18E1 battlefront_ww2_text_unit/font_unit/addr_reg_reg has an input control pin battlefront_ww2_text_unit/font_unit/addr_reg_reg/ADDRARDADDR[6] (net: battlefront_ww2_text_unit/font_unit/ADDRARDADDR[3]) which is driven by a register (vga_sync_unit/v_count_reg_reg[4]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+Net vga_sync_unit/v_count_reg_reg[7]_1[0] is a gated clock net sourced by a combinational pin vga_sync_unit/bit_addr_reg[2]_i_2/O, cell vga_sync_unit/bit_addr_reg[2]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
 Related violations: <none>
 
 
