@@ -219,34 +219,26 @@ begin
 	----------------------------------------------
 	kb_code_unit: entity work.kb_code(arch)
 	port map(
-        clk          => clock, 
-        reset        => reset, 
-        ps2d         => ps2d, 
-        ps2c         => ps2c,   
-        rd_key_code  => kb_not_empty, 
-        key_code     => key_code,
-        kb_buf_empty => kb_buf_empty,
-		rx_done_tick => rx_done_tick
-    );
-    --------------------------------------------
-	-- PS/2 KEY2ASCII MODULE
-	--------------------------------------------
-	key2a_unit: entity work.key2ascii(arch)
-	port map(
-        key_code   => key_code,
-        ascii_code => ascii_code
+        clk   		 => clock, 
+		reset        => reset, 
+		ps2d         => ps2d, 
+		ps2c         => ps2c,
+		rd_key_code  => '1', 
+		key_code     => key_code,
+		kb_buf_empty => open, 
+		kb_got_code  => open
     );
     --------------------------------------------
     -- KEYBOARD OR BUTTON INPUT WITH DEBUGGING
     --------------------------------------------
-    btn_key(7) <= '1' when ascii_code = "00001101" or  sw(3) = '1' else '0'; -- ENTER
-    btn_key(6) <= '1' when ascii_code = "01001001" or  sw(2) = '1' else '0'; -- I
-    btn_key(5) <= '1' when ascii_code = "01001100" or  sw(1) = '1' else '0'; -- J
-    btn_key(4) <= '1' when ascii_code = "01001010" or  sw(0) = '1' else '0'; -- L
-    btn_key(3) <= '1' when ascii_code = "00100000" or btn(3) = '1' else '0'; -- SPACE
-    btn_key(2) <= '1' when ascii_code = "01010111" or btn(2) = '1' else '0'; -- W
-    btn_key(1) <= '1' when ascii_code = "01000100" or btn(1) = '1' else '0'; -- D
-    btn_key(0) <= '1' when ascii_code = "01000001" or btn(0) = '1' else '0'; -- A
+    btn_key(7) <= '1' when key_code = "01011010" or  sw(3) = '1' else '0'; -- ENTER
+    btn_key(6) <= '1' when key_code = "01000011" or  sw(2) = '1' else '0'; -- I
+    btn_key(5) <= '1' when key_code = "01001011" or  sw(1) = '1' else '0'; -- J
+    btn_key(4) <= '1' when key_code = "00111011" or  sw(0) = '1' else '0'; -- L
+    btn_key(3) <= '1' when key_code = "00101001" or btn(3) = '1' else '0'; -- SPACE
+    btn_key(2) <= '1' when key_code = "00011101" or btn(2) = '1' else '0'; -- W
+    btn_key(1) <= '1' when key_code = "00100011" or btn(1) = '1' else '0'; -- D
+    btn_key(0) <= '1' when key_code = "00011100" or btn(0) = '1' else '0'; -- A
 	----------------------------------------------
 	-- REGISTERS & COLOR BUFFER
 	----------------------------------------------
@@ -341,9 +333,9 @@ begin
 					rgb_next <= graph_rgb;
 				end if;
 			else -- Display rules and/or game over
-				if display_game_over = '1' and text_on(5) = '1' then -- Display game over text
+				if display_game_over = '1' and (text_on(5) = '1' or text_on(3) = '1') then -- Display game over text
 					rgb_next <= text_rgb;
-				elsif display_rules = '1' and text_on(4) = '1' then -- Display rules text
+				elsif display_rules = '1' and (text_on(4) = '1' or text_on(3) = '1') then -- Display rules text
 					rgb_next <= text_rgb;
 				else
 					rgb_next <= "000000000000";

@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Mon Jan 20 20:42:10 2025
+| Date         : Mon Jan 27 16:17:41 2025
 | Host         : LENOVO-LOQ-15IRX9 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file battlefront_ww2_top_control_sets_placed.rpt
 | Design       : battlefront_ww2_top
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |    14 |
-|    Minimum number of control sets                        |    14 |
+| Total control sets                                       |    15 |
+|    Minimum number of control sets                        |    15 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    58 |
+| Unused register locations in slices containing registers |    56 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,13 +39,13 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |    14 |
+| Total control sets |    15 |
 | >= 0 to < 4        |     0 |
 | >= 4 to < 6        |     6 |
 | >= 6 to < 8        |     0 |
-| >= 8 to < 10       |     0 |
-| >= 10 to < 12      |     3 |
-| >= 12 to < 14      |     1 |
+| >= 8 to < 10       |     1 |
+| >= 10 to < 12      |     2 |
+| >= 12 to < 14      |     2 |
 | >= 14 to < 16      |     1 |
 | >= 16              |     3 |
 +--------------------+-------+
@@ -58,11 +58,11 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              88 |           51 |
-| No           | No                    | Yes                    |              99 |           54 |
+| No           | No                    | No                     |              88 |           48 |
+| No           | No                    | Yes                    |             100 |           47 |
 | No           | Yes                   | No                     |               0 |            0 |
 | Yes          | No                    | No                     |               0 |            0 |
-| Yes          | No                    | Yes                    |              55 |           20 |
+| Yes          | No                    | Yes                    |              64 |           19 |
 | Yes          | Yes                   | No                     |              12 |            4 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
@@ -70,23 +70,24 @@ Table of Contents
 4. Detailed Control Set Information
 -----------------------------------
 
-+----------------------------------------+----------------------------------------------------------+--------------------------------+------------------+----------------+--------------+
-|              Clock Signal              |                       Enable Signal                      |        Set/Reset Signal        | Slice Load Count | Bel Load Count | Bels / Slice |
-+----------------------------------------+----------------------------------------------------------+--------------------------------+------------------+----------------+--------------+
-|  clock_unit/inst/clk_out1              | battlefront_ww2_counter_unit/dig1_p1_reg[3]_i_1_n_1      | reset_IBUF                     |                1 |              4 |         4.00 |
-|  clock_unit/inst/clk_out1              | battlefront_ww2_counter_unit/dig1_p2_reg[3]_i_1_n_1      | reset_IBUF                     |                1 |              4 |         4.00 |
-|  clock_unit/inst/clk_out1              | battlefront_ww2_counter_unit/dp1_inc                     | reset_IBUF                     |                1 |              4 |         4.00 |
-|  clock_unit/inst/clk_out1              | battlefront_ww2_counter_unit/FSM_onehot_state_reg_reg[2] | reset_IBUF                     |                1 |              4 |         4.00 |
-|  clock_unit/inst/clk_out1              | kb_code_unit/ps2_rx_unit/E[0]                            | reset_IBUF                     |                1 |              4 |         4.00 |
-|  clock_unit/inst/clk_out1              | kb_code_unit/ps2_rx_unit/n_next                          | reset_IBUF                     |                1 |              4 |         4.00 |
-|  clock_unit/inst/clk_out1              | vga_sync_unit/pixel_tick                                 | reset_IBUF                     |                6 |             10 |         1.67 |
-|  clock_unit/inst/clk_out1              | kb_code_unit/ps2_rx_unit/b_next                          | reset_IBUF                     |                3 |             10 |         3.33 |
-|  clock_unit/inst/clk_out1              | vga_sync_unit/v_count_reg[9]_i_1_n_1                     | reset_IBUF                     |                5 |             11 |         2.20 |
-|  clock_unit/inst/clk_out1              | vga_sync_unit/E[0]                                       | vga_sync_unit/SR[0]            |                4 |             12 |         3.00 |
-|  vga_sync_unit/v_count_reg_reg[7]_1[0] |                                                          |                                |                7 |             14 |         2.00 |
-|  clock_unit/inst/clk_out1              |                                                          | reset_IBUF                     |                9 |             21 |         2.33 |
-|  n_0_1182_BUFG                         |                                                          |                                |               44 |             74 |         1.68 |
-|  clock_unit/inst/clk_out1              |                                                          | battlefront_ww2_unit/p1_x_reg0 |               45 |             78 |         1.73 |
-+----------------------------------------+----------------------------------------------------------+--------------------------------+------------------+----------------+--------------+
++---------------------------+----------------------------------------------------------+------------------------------------------+------------------+----------------+--------------+
+|        Clock Signal       |                       Enable Signal                      |             Set/Reset Signal             | Slice Load Count | Bel Load Count | Bels / Slice |
++---------------------------+----------------------------------------------------------+------------------------------------------+------------------+----------------+--------------+
+|  clock_unit/inst/clk_out1 | kb_code_unit/E[0]                                        | reset_IBUF                               |                1 |              4 |         4.00 |
+|  clock_unit/inst/clk_out1 | kb_code_unit/ps2_rx_unit/n_next                          | reset_IBUF                               |                1 |              4 |         4.00 |
+|  clock_unit/inst/clk_out1 | battlefront_ww2_counter_unit/dp1_inc                     | reset_IBUF                               |                1 |              4 |         4.00 |
+|  clock_unit/inst/clk_out1 | battlefront_ww2_counter_unit/FSM_onehot_state_reg_reg[2] | reset_IBUF                               |                1 |              4 |         4.00 |
+|  clock_unit/inst/clk_out1 | battlefront_ww2_counter_unit/dig1_p1_reg[3]_i_1_n_1      | reset_IBUF                               |                1 |              4 |         4.00 |
+|  clock_unit/inst/clk_out1 | battlefront_ww2_counter_unit/dig1_p2_reg[3]_i_1_n_1      | reset_IBUF                               |                1 |              4 |         4.00 |
+|  clock_unit/inst/clk_out1 | kb_code_unit/ps2_rx_unit/scan_done_tick                  | reset_IBUF                               |                3 |              8 |         2.67 |
+|  clock_unit/inst/clk_out1 | kb_code_unit/ps2_rx_unit/b_next                          | reset_IBUF                               |                2 |             10 |         5.00 |
+|  clock_unit/inst/clk_out1 | vga_sync_unit/pixel_tick                                 | reset_IBUF                               |                3 |             10 |         3.33 |
+|  clock_unit/inst/clk_out1 | vga_sync_unit/v_count_reg[9]_i_1_n_1                     | reset_IBUF                               |                5 |             12 |         2.40 |
+|  clock_unit/inst/clk_out1 | vga_sync_unit/mod2_reg_reg_0[0]                          | vga_sync_unit/SR[0]                      |                4 |             12 |         3.00 |
+|  vga_sync_unit/E[0]       |                                                          |                                          |                6 |             14 |         2.33 |
+|  clock_unit/inst/clk_out1 |                                                          | reset_IBUF                               |                9 |             22 |         2.44 |
+|  n_0_1012_BUFG            |                                                          |                                          |               42 |             74 |         1.76 |
+|  clock_unit/inst/clk_out1 |                                                          | battlefront_ww2_unit/p2_y_reg[8]_i_1_n_1 |               38 |             78 |         2.05 |
++---------------------------+----------------------------------------------------------+------------------------------------------+------------------+----------------+--------------+
 
 

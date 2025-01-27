@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Mon Jan 20 20:41:45 2025
+| Date         : Mon Jan 27 16:17:16 2025
 | Host         : LENOVO-LOQ-15IRX9 running 64-bit major release  (build 9200)
 | Command      : report_utilization -file battlefront_ww2_top_utilization_synth.rpt -pb battlefront_ww2_top_utilization_synth.pb
 | Design       : battlefront_ww2_top
@@ -31,13 +31,13 @@ Table of Contents
 +-------------------------+------+-------+------------+-----------+-------+
 |        Site Type        | Used | Fixed | Prohibited | Available | Util% |
 +-------------------------+------+-------+------------+-----------+-------+
-| Slice LUTs*             | 1022 |     0 |          0 |     20800 |  4.91 |
-|   LUT as Logic          | 1022 |     0 |          0 |     20800 |  4.91 |
+| Slice LUTs*             | 1033 |     0 |          0 |     20800 |  4.97 |
+|   LUT as Logic          | 1033 |     0 |          0 |     20800 |  4.97 |
 |   LUT as Memory         |    0 |     0 |          0 |      9600 |  0.00 |
-| Slice Registers         |  254 |     0 |          0 |     41600 |  0.61 |
-|   Register as Flip Flop |  166 |     0 |          0 |     41600 |  0.40 |
+| Slice Registers         |  264 |     0 |          0 |     41600 |  0.63 |
+|   Register as Flip Flop |  176 |     0 |          0 |     41600 |  0.42 |
 |   Register as Latch     |   88 |     0 |          0 |     41600 |  0.21 |
-| F7 Muxes                |   21 |     0 |          0 |     16300 |  0.13 |
+| F7 Muxes                |   12 |     0 |          0 |     16300 |  0.07 |
 | F8 Muxes                |    0 |     0 |          0 |      8150 |  0.00 |
 +-------------------------+------+-------+------------+-----------+-------+
 * Warning! The Final LUT count, after physical optimizations and full implementation, is typically lower. Run opt_design after synthesis, if not already completed, for a more realistic count.
@@ -57,8 +57,8 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 | 0     |            _ |         Set |            - |
 | 0     |            _ |       Reset |            - |
 | 0     |          Yes |           - |            - |
-| 22    |          Yes |           - |          Set |
-| 220   |          Yes |           - |        Reset |
+| 23    |          Yes |           - |          Set |
+| 229   |          Yes |           - |        Reset |
 | 0     |          Yes |         Set |            - |
 | 12    |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
@@ -153,17 +153,17 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
-| LUT6     |  580 |                 LUT |
-| LUT5     |  295 |                 LUT |
-| LUT4     |  222 |                 LUT |
-| FDCE     |  132 |        Flop & Latch |
-| LUT3     |  112 |                 LUT |
-| LUT2     |   91 |                 LUT |
+| LUT6     |  573 |                 LUT |
+| LUT5     |  300 |                 LUT |
+| LUT4     |  239 |                 LUT |
+| FDCE     |  141 |        Flop & Latch |
+| LUT3     |  119 |                 LUT |
+| LUT2     |   89 |                 LUT |
 | LDCE     |   88 |        Flop & Latch |
 | CARRY4   |   52 |          CarryLogic |
-| FDPE     |   22 |        Flop & Latch |
-| MUXF7    |   21 |               MuxFx |
+| FDPE     |   23 |        Flop & Latch |
 | OBUF     |   14 |                  IO |
+| MUXF7    |   12 |               MuxFx |
 | FDRE     |   12 |        Flop & Latch |
 | IBUF     |   11 |                  IO |
 | LUT1     |    8 |                 LUT |

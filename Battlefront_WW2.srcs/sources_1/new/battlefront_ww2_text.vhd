@@ -37,9 +37,9 @@ architecture Behavioral of battlefront_ww2_text is
   signal row_addr_g            : std_logic_vector(4 downto 1);
   signal bit_addr_g            : std_logic_vector(3 downto 1);
   signal rule_rom_addr         : unsigned(5 downto 0);
-  signal press_rom_addr        : unsigned(4 downto 0);
+  signal press_rom_addr        : unsigned(5 downto 0);
   type rule_rom_type is array (0 to 63) of std_logic_vector (6 downto 0);
-  type press_rom_type is array (0 to 31) of std_logic_vector (6 downto 0);
+  type press_rom_type is array (0 to 63) of std_logic_vector (6 downto 0);
   constant RULE_ROM: rule_rom_type :=
   (
       -- row 1
@@ -94,10 +94,10 @@ architecture Behavioral of battlefront_ww2_text is
       "0000000", --
       "0000000", -- 
       -- row 4
-      "0011000", -- x18 (UP ARROW)
-      "0011001", -- x19 (DOWN ARROW)
-      "0011011", -- x1b (LEFT ARROW)
-      "0011010", -- x1a (RIGHT ARROW)
+      "1001001", -- I
+      "1001010", -- J
+      "1001011", -- K
+      "1001100", -- L
       "0000000", --  
       "1100001", -- a
       "1101110", -- n
@@ -120,7 +120,7 @@ architecture Behavioral of battlefront_ww2_text is
       "1110011", -- s
       "1110011", -- s
       "0000000", -- 
-      "1110101", -- u
+      "1100100", -- d
       "1011111", -- _
       "1100010", -- b
       "1110100", -- t
@@ -129,6 +129,8 @@ architecture Behavioral of battlefront_ww2_text is
       "1101111", -- o
       "1110010", -- r
       "0000000", -- 
+      "0000000", -- 
+      -- row 2
       "1010011", -- S
       "1010000", -- P
       "1000001", -- A
@@ -137,7 +139,15 @@ architecture Behavioral of battlefront_ww2_text is
       "0000000", -- 
       "1110100", -- t
       "1101111", -- o
+      "0000000", -- 
+      "0000000", -- 
       "0000000", --
+      "0000000", -- 
+      "0000000", -- 
+      "0000000", --
+      "0000000", -- 
+      "0000000", -- 
+      -- row 3
       "1100011", -- c
       "1101111", -- o
       "1101110", -- n
@@ -145,7 +155,32 @@ architecture Behavioral of battlefront_ww2_text is
       "1101001", -- i
       "1101110", -- n
       "1110101", -- u 
-      "1100101"  -- e
+      "1100101", -- e
+      "0000000", -- 
+      "0000000", -- 
+      "0000000", --
+      "0000000", -- 
+      "0000000", -- 
+      "0000000", --
+      "0000000", -- 
+      "0000000", -- 
+      -- row 3
+      "0000000", -- 
+      "0000000", --
+      "0000000", -- 
+      "0000000", -- 
+      "0000000", --
+      "0000000", -- 
+      "0000000", -- 
+      "0000000", --
+      "0000000", -- 
+      "0000000", -- 
+      "0000000", --
+      "0000000", -- 
+      "0000000", -- 
+      "0000000", --
+      "0000000", -- 
+      "0000000" -- 
     );
 begin
   ---------------------------------------------
@@ -232,13 +267,13 @@ begin
   ---------------------------------------------
   -- PRESS BUTTON TEXT
   ---------------------------------------------
-  -- press_on <= '1' when pix_y(9 downto 4) = "0010" else '0';
-  -- press_rom_addr <= pix_y(5) & pix_x(6 downto 3);
-  -- char_addr_p <= PRESS_ROM(to_integer(press_rom_addr)); -- temporary use press_rom
+  press_on <= '1' when pix_x(9 downto 7) = "010" and pix_y(9 downto 6)=  "0100"  else '0';
+  press_rom_addr <= pix_y(5 downto 4) & pix_x(6 downto 3);
+  char_addr_p <= PRESS_ROM(to_integer(press_rom_addr)); -- temporary use press_rom
   ---------------------------------------------
   -- GAME OVER TEXT
   ---------------------------------------------
-  over_on <= '1' when pix_y(9 downto 4) = "0010" else '0';
+  over_on <= '1' when pix_y(9 downto 5) = "0011" and (250 <= pix_x(9 downto 0) and pix_x(9 downto 0) <= 500) else '0';
   with pix_x(7 downto 4) select
   char_addr_o <=  
     "1010000"     when "0000", -- P
@@ -250,10 +285,10 @@ begin
     "0000000"     when "0110", -- 
     "01100" & win when "0111", -- X 
     "0000000"     when "1000", -- 
-    "0000000"     when "1001", -- W
-    "0000000"     when "1010", -- I
-    "0000000"     when "1011", -- N
-    "0000000"     when "1100", -- S
+    "1010111"     when "1001", -- W
+    "1001001"     when "1010", -- I
+    "1001110"     when "1011", -- N
+    "1010011"     when "1100", -- S
     "0000000" when others;  
   ---------------------------------------------
   -- ROM/RGB ADDRESS MUX
@@ -295,15 +330,15 @@ begin
         text_rgb <= "111111111111";
       end if;
     elsif press_on = '1' then
-      char_addr <= char_addr_p;
       row_addr <= row_addr_r;
       bit_addr <= bit_addr_r;
+      char_addr <= char_addr_p;
       if font_bit = '1' then
         text_rgb <= "111111111111";
       end if;
     elsif over_on = '1' then
-      row_addr <= row_addr_r;
-      bit_addr <= bit_addr_r;
+      row_addr <= row_addr_g;
+      bit_addr <= bit_addr_g;
       char_addr <= char_addr_o;
       if font_bit = '1' then
         text_rgb <= "111111111111";

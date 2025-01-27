@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date             : Mon Jan 20 20:42:28 2025
+| Date             : Mon Jan 27 16:18:01 2025
 | Host             : LENOVO-LOQ-15IRX9 running 64-bit major release  (build 9200)
 | Command          : report_power -file battlefront_ww2_top_power_routed.rpt -pb battlefront_ww2_top_power_summary_routed.pb -rpx battlefront_ww2_top_power_routed.rpx
 | Design           : battlefront_ww2_top
@@ -53,14 +53,14 @@ Table of Contents
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
 | Clocks         |     0.001 |        8 |       --- |             --- |
-| Slice Logic    |     0.001 |     1651 |       --- |             --- |
-|   LUT as Logic |     0.001 |     1011 |     20800 |            4.86 |
+| Slice Logic    |     0.002 |     1673 |       --- |             --- |
+|   LUT as Logic |     0.002 |     1019 |     20800 |            4.90 |
 |   CARRY4       |    <0.001 |       52 |      8150 |            0.64 |
-|   Register     |    <0.001 |      254 |     41600 |            0.61 |
+|   Register     |    <0.001 |      264 |     41600 |            0.63 |
 |   BUFG         |    <0.001 |        1 |        32 |            3.13 |
-|   F7/F8 Muxes  |    <0.001 |       10 |     32600 |            0.03 |
-|   Others       |     0.000 |       15 |       --- |             --- |
-| Signals        |     0.001 |     1320 |       --- |             --- |
+|   F7/F8 Muxes  |    <0.001 |        1 |     32600 |           <0.01 |
+|   Others       |     0.000 |       16 |       --- |             --- |
+| Signals        |     0.002 |     1354 |       --- |             --- |
 | Block RAM      |    <0.001 |      0.5 |        50 |            1.00 |
 | PLL            |     0.099 |        1 |         5 |           20.00 |
 | I/O            |    <0.001 |       26 |       106 |           24.53 |
@@ -75,7 +75,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.023 |       0.013 |      0.010 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.024 |       0.014 |      0.010 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.063 |       0.050 |      0.013 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.001 |       0.000 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -150,7 +150,7 @@ Table of Contents
 | Name                   | Power (W) |
 +------------------------+-----------+
 | battlefront_ww2_top    |     0.105 |
-|   battlefront_ww2_unit |     0.001 |
+|   battlefront_ww2_unit |     0.002 |
 |   clock_unit           |     0.100 |
 |     inst               |     0.100 |
 |   vga_sync_unit        |     0.002 |

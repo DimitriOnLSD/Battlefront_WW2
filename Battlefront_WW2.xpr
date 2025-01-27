@@ -136,17 +136,17 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/battlefront_ww2/kb_code.vhd">
+      <File Path="$PSRCDIR/sources_1/imports/battlefront_ww2/fifo.vhd">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/battlefront_ww2/kb_code.vhd"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/battlefront_ww2/fifo.vhd"/>
           <Attr Name="ImportTime" Val="1736173438"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/battlefront_ww2/key2ascii.vhd">
+      <File Path="$PSRCDIR/sources_1/imports/battlefront_ww2/kb_code.vhd">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/battlefront_ww2/key2ascii.vhd"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/battlefront_ww2/kb_code.vhd"/>
           <Attr Name="ImportTime" Val="1736173438"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -164,6 +164,15 @@
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/battlefront_ww2/battlefront_ww2_top.vhd"/>
           <Attr Name="ImportTime" Val="1735510752"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/battlefront_ww2/key2ascii.vhd">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../Desktop/battlefront_ww2/key2ascii.vhd"/>
+          <Attr Name="ImportTime" Val="1736173438"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>

@@ -1,3 +1,4 @@
+-- Listing 8.1
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -14,7 +15,8 @@ end ps2_rx;
 architecture arch of ps2_rx is
    type statetype is (idle, dps, load);
    signal state_reg, state_next: statetype;
-   signal filter_reg, filter_next: std_logic_vector(7 downto 0);
+   signal filter_reg, filter_next:
+          std_logic_vector(7 downto 0);
    signal f_ps2c_reg,f_ps2c_next: std_logic;
    signal b_reg, b_next: std_logic_vector(10 downto 0);
    signal n_reg,n_next: unsigned(3 downto 0);

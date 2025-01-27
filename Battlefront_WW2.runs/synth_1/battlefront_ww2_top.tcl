@@ -81,8 +81,8 @@ read_vhdl -library xil_defaultlib {
   C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/font_rom.vhd
   C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/new/battlefront_ww2_text.vhd
   C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/ps2_rx.vhd
+  C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/fifo.vhd
   C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/kb_code.vhd
-  C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/key2ascii.vhd
   C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/vga_sync.vhd
   C:/Users/Paulo/Documents/GitHub/Battlefront_WW2/Battlefront_WW2.srcs/sources_1/imports/battlefront_ww2/battlefront_ww2_top.vhd
 }
